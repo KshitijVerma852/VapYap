@@ -1,11 +1,20 @@
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import os
+import openai
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+client = openai.OpenAI(
+    api_key=os.environ["OPENAI_API_KEY"]
+)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Create a chat completion
+response = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Write me an essay",
+        }
+    ],
+    model="gpt-3.5-turbo",
+)
+
+print(response.choices[0].message.content)
