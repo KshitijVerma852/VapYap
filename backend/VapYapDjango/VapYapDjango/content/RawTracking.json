@@ -1,0 +1,19 @@
+{
+    "PM": [],
+    "LO": [],
+    "DPM": [],
+    "DLO": [],
+    "MG": [
+        {
+            "text": "This seems true",
+            "strength": 2
+        },
+        {
+            "text": "Yes",
+            "strength": 1
+        }
+    ],
+    "MO": [],
+    "GW": [],
+    "OW": []
+}
