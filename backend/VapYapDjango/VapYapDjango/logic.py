@@ -7,14 +7,13 @@ client = openai.OpenAI(
     api_key=os.environ["OPENAI_API_KEY"]
 )
 
+
 def returnValue(request: HttpRequest):
     if 'chat_history' not in request.session:
         request.session['chat_history'] = []
 
     user_message = "Make me a poem"
     request.session['chat_history'].append({"role": "user", "content": user_message})
-
-
 
     # Call OpenAI API with the accumulated chat history
     response = client.chat.completions.create(
