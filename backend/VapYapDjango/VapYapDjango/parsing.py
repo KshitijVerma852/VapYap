@@ -1,4 +1,10 @@
 import json
+from django.http import JsonResponse, HttpRequest
+
+def returnJSONObject(request: HttpRequest):
+
+    return JsonResponse({"ai_respongfhdse"})
+
 
 def parse_arguments(input_filename, output_filename):
     debate_data = {}

@@ -2,6 +2,7 @@ import os
 import openai
 from django.http import JsonResponse, HttpRequest
 
+
 client = openai.OpenAI(
     api_key=os.environ["OPENAI_API_KEY"]
 )
@@ -10,12 +11,15 @@ client = openai.OpenAI(
 
 
 
-def returnJSONObject(request: HttpRequest):
-    system_message = "Please speak to me in Spanish onkly"
+def returnJSONObject(request):
+
+    system_message = "Please speak to me in Spanish only"
     user_message = "Write a poem"
     ai_response = makeAPIRequestFreshSystem(system_message, user_message, request)
 
-    return JsonResponse({"ai_response": ai_response})
+
+
+    return JsonResponse({ ai_response})
 
 
 
