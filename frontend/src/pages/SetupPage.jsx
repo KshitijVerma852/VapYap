@@ -18,6 +18,7 @@ const SetupPage = () => {
 						value={motion}
 						onChange={(e) => setMotion(e.target.value)}
 						style={{width: '100%', padding: '10px', resize: "none"}}
+						required={true}
 					/>
 				</div>
 				<div style={{marginBottom: '20px'}}>
@@ -29,6 +30,7 @@ const SetupPage = () => {
 						value={infoSlide}
 						onChange={(e) => setInfoSlide(e.target.value)}
 						style={{width: '100%', padding: '10px', resize: "none"}}
+						placeholder={"(optional)"}
 					/>
 				</div>
 				<div style={{marginBottom: '20px'}}>
@@ -38,6 +40,7 @@ const SetupPage = () => {
 						value={position}
 						onChange={(e) => setPosition(e.target.value)}
 						style={{width: '100%', padding: '10px'}}
+						required={true}
 					>
 						<option value="option1">OG</option>
 						<option value="option2">OO</option>
@@ -55,7 +58,7 @@ const SetupPage = () => {
 						border: 'none',
 						borderRadius: '25px',
 						cursor: 'pointer',
-						display: 'block', // Center the button
+						display: 'block',
 						marginLeft: 'auto',
 						marginRight: 'auto'
 					}}
