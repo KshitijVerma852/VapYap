@@ -1,17 +1,35 @@
 import json
 import os
 from django.http import JsonResponse, HttpRequest
-
+from .logic import makeAPIRequestFreshSystem
 
 def returnJSONObject(request: HttpRequest):
-    input_filename = os.getcwd() + '/VapYapDjango/content/debate.txt'
-    output_filename = os.getcwd() + '/VapYapDjango/content/RawTracking.json'
-    parse_arguments(input_filename, output_filename)
-
+    parse_RawArguments(rawDebateInput, rawDebateOutput)
+    clean_RawArguments(rawDebateOutput, cleanDebateOutput)
     return JsonResponse({"ai_response": "dfdai_response"})
 
 
-def parse_arguments(input_filename, output_filename):
+
+def clean_RawArguments(input_filename, output_filename):
+    cleanMessage = "Please fix grammar errors and spelling errors in these sentences without altering the meaning significantly."
+    with open(input_filename, 'r') as file:
+        data = json.load(file)
+
+    clean_data = {}
+    for speech_type, arguments in data.items():
+        clean_data[speech_type] = [{
+            'text': makeAPIRequestFreshSystem(cleanMessage,arg['text']),
+            'strength': arg['strength']
+        } for arg in arguments]
+
+    with open(output_filename, 'w') as file:
+        json.dump(clean_data, file, indent=4)
+
+    print(f"Clean data has been written to {output_filename}")
+
+
+
+def parse_RawArguments(input_filename, output_filename):
     debate_data = {}
     try:
         with open(output_filename, 'r') as file:
@@ -48,3 +66,6 @@ def parse_arguments(input_filename, output_filename):
     print(f"Data has been written to {output_filename}")
 
 
+rawDebateInput = os.getcwd() + '/VapYapDjango/content/debate.txt'
+rawDebateOutput = os.getcwd() + '/VapYapDjango/content/RawTracking.json'
+cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/CleanTracking.json'

@@ -7,7 +7,7 @@ client = openai.OpenAI(
 )
 
 
-def returnJSONObject(request):
+def returnJSONObject():
     system_message = "Please speak to me in Spanish only"
     user_message = "Write a poem"
     chatgptData = {
@@ -15,12 +15,17 @@ def returnJSONObject(request):
             "chat_history": []
         }
     }
-    ai_response = makeAPIRequestFreshSystem(system_message, user_message, chatgptData)
+    ai_response = makeAPIRequestFreshSystem(system_message, user_message)
 
     return JsonResponse({"ai_response": ai_response})
 
 
-def makeAPIRequestFreshSystem(systemMessage, user_message, chatgptData):
+def makeAPIRequestFreshSystem(systemMessage, user_message):
+    chatgptData = {
+        "session": {
+            "chat_history": []
+        }
+    }
     chatgptData["session"]['chat_history'].append({"role": "system", "content": systemMessage})
     chatgptData["session"]['chat_history'].append({"role": "user", "content": user_message})
     response = client.chat.completions.create(

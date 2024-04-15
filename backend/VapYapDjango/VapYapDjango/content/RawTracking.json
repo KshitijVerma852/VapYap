@@ -1,18 +1,26 @@
 {
-    "PM": [],
-    "LO": [],
-    "DPM": [],
-    "DLO": [],
-    "MG": [
+    "PM": [
         {
-            "text": "This seems true",
+            "text": "ClimateChange is bad because it leads to air polution",
+            "strength": 1
+        },
+        {
+            "text": "Air polution kills lots of people -- this happens because it gives them lung cancer",
+            "strength": 1
+        },
+        {
+            "text": "Air polution also causes poverty -- decreases tourism which hurts econ",
             "strength": 2
         },
         {
-            "text": "Yes",
+            "text": "Cliamte change also leads to heatwaves as ozone effect happens",
             "strength": 1
         }
     ],
+    "LO": [],
+    "DPM": [],
+    "DLO": [],
+    "MG": [],
     "MO": [],
     "GW": [],
     "OW": []
