@@ -5,10 +5,37 @@ const SetupPage = () => {
 	const [infoSlide, setInfoSlide] = useState('');
 	const [position, setPosition] = useState('option1');
 
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+
+		const formData = {
+			motion,
+			infoSlide,
+			position
+		};
+		const url = "http://localhost:8000";
+		try {
+			const response = await fetch(url, {
+				method: "POST",
+				headers: {
+					"Content-type": "application/json"
+				},
+				body: JSON.stringify(formData)
+			});
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+		} catch (error) {
+			console.error("There was an error with the request:", error);
+		}
+	};
+
+
+
 	return (
 		<div>
 			<h1 style={{color: "pink"}}>Vap Yap</h1>
-			<form style={{maxWidth: '600px', margin: 'auto'}}>
+			<form style={{maxWidth: '600px', margin: 'auto'}} onSubmit={handleSubmit}>
 				<div style={{marginBottom: '20px'}}>
 					<label htmlFor="motion" style={{display: 'block', marginBottom: '10px'}}>Motion:</label>
 					<textarea
