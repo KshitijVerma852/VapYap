@@ -7,22 +7,23 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        motion = data.get("motion")
-        infoSlide = data.get("infoSlide")
-        position = data.get("position")
 
-        parse_RawArguments(rawDebateInput, rawDebateOutput)
-        clean_RawArguments(rawDebateOutput, cleanDebateOutput)
-
-        return JsonResponse({"ai_response": "dfdai_response"})
-
+    motion = "This house believes that religion does more harm than good"
+    infoSlide = ""
+    position = "OG"
+    parse_RawArguments(rawDebateInput, rawDebateOutput)
+    clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+    caseGeneration(motion, infoSlide, position)
+        
     return JsonResponse({"ai_response": "dfdai_response"})
 
+def caseGeneration(motion, infoSlide, position):
+    speechDetails = ("The motion you need to brainstorm reads: " +motion + " The info slide, if it exists reads: " + infoSlide + "You are to think of arguments for side :" + position)
+    brainStormedIdeas = makeAPIRequestFreshSystem(BrainStormMessage, speechDetails)
+    with open(BrainStormOutput, 'w') as file:
+        file.write(brainStormedIdeas)
 
 def clean_RawArguments(input_filename, output_filename):
-    cleanMessage = "Please fix grammar errors and spelling errors in these sentences without altering the meaning significantly."
     with open(input_filename, 'r') as file:
         data = json.load(file)
 
@@ -76,6 +77,10 @@ def parse_RawArguments(input_filename, output_filename):
     print(f"Data has been written to {output_filename}")
 
 
-rawDebateInput = os.getcwd() + '/VapYapDjango/content/debate.txt'
+rawDebateInput = os.getcwd() + '/VapYapDjango/content/speech.txt'
 rawDebateOutput = os.getcwd() + '/VapYapDjango/content/RawTracking.json'
 cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/CleanTracking.json'
+BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
+
+cleanMessage = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
+BrainStormMessage = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
