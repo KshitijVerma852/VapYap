@@ -7,19 +7,6 @@ client = openai.OpenAI(
 )
 
 
-def returnJSONObject():
-    system_message = "Please speak to me in Spanish only"
-    user_message = "Write a poem"
-    chatgptData = {
-        "session": {
-            "chat_history": []
-        }
-    }
-    ai_response = makeAPIRequestFreshSystem(system_message, user_message)
-
-    return JsonResponse({"ai_response": ai_response})
-
-
 def makeAPIRequestFreshSystem(systemMessage, user_message):
     chatgptData = {
         "session": {

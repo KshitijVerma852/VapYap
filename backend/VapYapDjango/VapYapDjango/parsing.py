@@ -4,6 +4,7 @@ from django.http import JsonResponse, HttpRequest
 from .logic import makeAPIRequestFreshSystem
 
 def returnJSONObject(request: HttpRequest):
+    motion = request.POST[""]
     parse_RawArguments(rawDebateInput, rawDebateOutput)
     clean_RawArguments(rawDebateOutput, cleanDebateOutput)
     return JsonResponse({"ai_response": "dfdai_response"})
