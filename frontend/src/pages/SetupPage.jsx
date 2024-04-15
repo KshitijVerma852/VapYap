@@ -1,9 +1,11 @@
 import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const SetupPage = () => {
 	const [motion, setMotion] = useState('');
 	const [infoSlide, setInfoSlide] = useState('');
-	const [position, setPosition] = useState('option1');
+	const [position, setPosition] = useState('OG');
+	const navigate = useNavigate();
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -25,11 +27,12 @@ const SetupPage = () => {
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
+			console.log("Reached here");
 		} catch (error) {
+			navigate("/speech", { state: { ...formData } });
 			console.error("There was an error with the request:", error);
 		}
 	};
-
 
 
 	return (
@@ -69,10 +72,10 @@ const SetupPage = () => {
 						style={{width: '100%', padding: '10px'}}
 						required={true}
 					>
-						<option value="option1">OG</option>
-						<option value="option2">OO</option>
-						<option value="option3">CG</option>
-						<option value="option3">CO</option>
+						<option value="OG">OG</option>
+						<option value="OO">OO</option>
+						<option value="CG">CG</option>
+						<option value="CO">CO</option>
 					</select>
 				</div>
 				<button
