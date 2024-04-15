@@ -1,9 +1,14 @@
 import json
+import os
 from django.http import JsonResponse, HttpRequest
 
-def returnJSONObject(request: HttpRequest):
 
-    return JsonResponse({"ai_respongfhdse"})
+def returnJSONObject(request: HttpRequest):
+    input_filename = os.getcwd() + '/VapYapDjango/content/debate.txt'
+    output_filename = os.getcwd() + '/VapYapDjango/content/RawTracking.json'
+    parse_arguments(input_filename, output_filename)
+
+    return JsonResponse({"ai_response": "dfdai_response"})
 
 
 def parse_arguments(input_filename, output_filename):
@@ -42,6 +47,4 @@ def parse_arguments(input_filename, output_filename):
 
     print(f"Data has been written to {output_filename}")
 
-input_filename = 'content/debate.txt'
-output_filename = 'content/RawTracking.json'
-parse_arguments(input_filename, output_filename)
+
