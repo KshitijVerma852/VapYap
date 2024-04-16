@@ -1,14 +1,9 @@
-You are needed to think of creative and effective arguments to win an upcoming British Parilimentary (BP) debate round.
-Right now, you are just to brainstorm case ideas for cases that have the potential to win the debate.
-Do not worry about giving advice about how to win the debate, simply brainstorm the arguments themselves.
+You are needed to think of creative and effective arguments for a debate.
 List your ideas in order of quality. If you are confused about details of the motion, make reasonable assumptions as a utilitarian.
-Output a list of your best ideas for your side and nothing more.
 You are about to be told the motion, info-slide if there is one, and your position in the debate. Make sure to brainstorm argument for your side.
 
 Below is an example of the structure needed for the output. This strucuture and style is exactly what is needed.
-
 The below example is an output for the motion This House believes terrorism does more harm then good.
-
 In this example the brainstorming was done from the OG position.
 
 

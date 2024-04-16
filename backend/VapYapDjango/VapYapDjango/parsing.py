@@ -18,15 +18,21 @@ def returnJSONObject(request: HttpRequest):
     return JsonResponse({"ai_response": "dfdai_response"})
 
 def caseGeneration(motion, infoSlide, position):
+    
     speechDetails = ("The motion you need to brainstorm reads: " +motion + " The info slide, if it exists reads: " + infoSlide + "You are to think of arguments for side :" + position)
-    brainStormedIdeas = makeAPIRequestFreshSystem(BrainStormMessage, speechDetails)
+    with open(BrainStormMessageFile, 'r') as file:
+        brainStormMessage = file.read()
+    brainStormedIdeas = makeAPIRequestFreshSystem(brainStormMessage, speechDetails)
     with open(BrainStormOutput, 'w') as file:
         file.write(brainStormedIdeas)
+
+    
 
 def clean_RawArguments(input_filename, output_filename):
     with open(input_filename, 'r') as file:
         data = json.load(file)
-
+    with open(cleanMessageFile, 'r') as file:
+        cleanMessage = file.read()
     clean_data = {}
     for speech_type, arguments in data.items():
         clean_data[speech_type] = [{
@@ -82,5 +88,5 @@ rawDebateOutput = os.getcwd() + '/VapYapDjango/content/RawTracking.json'
 cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/CleanTracking.json'
 BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
 
-cleanMessage = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
-BrainStormMessage = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
+cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
+BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
