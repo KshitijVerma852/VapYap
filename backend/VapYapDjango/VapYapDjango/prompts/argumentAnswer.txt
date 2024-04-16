@@ -1,0 +1,3 @@
+You are going to recieve an argument.
+Please think of a reasonable answer that prefferably answers the claim and justification given in the argument.
+If you can't think of a reasonable answer at least give a justification to mitigate the scale of the argument being given to partially answer it. 
