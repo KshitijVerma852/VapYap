@@ -12,9 +12,13 @@ def returnJSONObject(request: HttpRequest):
     motion ="This House believes that democratic states should grant an amnesty to whistleblowers who expose unethical practices in the government."
     infoSlide = ""
     position = "OG"
+
     parse_RawArguments(rawDebateInput, rawDebateOutput)
     clean_RawArguments(rawDebateOutput, cleanDebateOutput)
-    #answerArguments(cleanDebateOutput, answerDebateOutput)
+    answerArguments(cleanDebateOutput, answerDebateOutput)
+
+    #Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
+    #Case generation only happens sometimes.
     caseGeneration(motion, infoSlide, position)
     return JsonResponse({"ai_response": "dfdai_response"})
 

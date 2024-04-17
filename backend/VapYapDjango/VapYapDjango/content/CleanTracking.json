@@ -1,11 +1,11 @@
 {
     "PM": [
         {
-            "text": "Climate change is bad because it leads to air pollution.",
+            "text": "Climate change is harmful because it leads to air pollution.",
             "strength": 1
         },
         {
-            "text": "Air pollution kills many people because it leads to them developing lung cancer.",
+            "text": "Air pollution kills many people because it can cause lung cancer.",
             "strength": 1
         },
         {
@@ -13,7 +13,7 @@
             "strength": 2
         },
         {
-            "text": "Climate change also leads to heatwaves as the ozone effect takes place.",
+            "text": "Climate change also leads to heatwaves as ozone effects occur.",
             "strength": 1
         },
         {
@@ -21,15 +21,15 @@
             "strength": 1
         },
         {
-            "text": "Air pollution kills many people by causing them to develop lung cancer.",
+            "text": "Air pollution kills many people because it can cause lung cancer.",
             "strength": 1
         },
         {
-            "text": "Air pollution also causes poverty -- decreasing tourism, which hurts the economy.",
+            "text": "Air pollution also causes poverty by decreasing tourism, which hurts the economy.",
             "strength": 2
         },
         {
-            "text": "Climate change also leads to heatwaves due to the ozone effect.",
+            "text": "Climate change also leads to heatwaves as the ozone effect occurs.",
             "strength": 1
         }
     ],
