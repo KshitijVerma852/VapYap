@@ -20,6 +20,7 @@ def returnJSONObject(request: HttpRequest):
     #Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
     #Case generation only happens sometimes.
     caseGeneration(motion, infoSlide, position)
+
     return JsonResponse({"ai_response": "dfdai_response"})
 
 def caseGeneration(motion, infoSlide, position):
@@ -38,10 +39,11 @@ def caseGeneration(motion, infoSlide, position):
     debateInfo = (speechDetails + "My ideas are below" + brainStormedIdeas)
 
     PM = makeAPIRequestFreshSystem(PMMessage, debateInfo)
-
+    print("Speech made of unknown length")
+    lengthAdjustedPM = adjustLength(PM)
 
     with open(PMOutput, 'w') as file:
-        file.write(PM)
+        file.write(lengthAdjustedPM)
     print(f"Case has been written to {PMOutput}")
 
 
@@ -115,6 +117,28 @@ def parse_RawArguments(input_filename, output_filename):
 
     print(f"Data has been written to {output_filename}")
 
+def adjustLength(inputString):
+    space_count = len(inputString.split())
+
+    with open(speechTooLongFile, 'r') as file:
+        speechTooLong = file.read()
+    with open(speechTooShortFile, 'r') as file:
+        speechTooShort = file.read()
+    outputString = inputString
+    print("speech is currently " + str(space_count)+ " before adjustment")
+    if space_count > 1400:
+        outputString = makeAPIRequestFreshSystem(speechTooLong, inputString)
+        print("Speech made shorter")
+        adjustLength(outputString)
+    if space_count < 1100:
+        outputString = makeAPIRequestFreshSystem(speechTooShort+str(space_count), inputString)
+        print("Speech made longer")
+        adjustLength(outputString)
+
+    return outputString
+
+
+
 rawDebateInput = os.getcwd() + '/VapYapDjango/content/speech.txt'
 rawDebateOutput = os.getcwd() + '/VapYapDjango/content/RawTracking.json'
 cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/CleanTracking.json'
@@ -128,3 +152,5 @@ cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
 BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
 answerMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentAnswer.txt'
 PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration.txt'
+speechTooLongFile = os.getcwd() + '/VapYapDjango/prompts/length/speechTooLong.txt'
+speechTooShortFile = os.getcwd() + '/VapYapDjango/prompts/length/speechTooShort.txt'
