@@ -6,6 +6,7 @@ client = openai.OpenAI(
     api_key=os.environ["OPENAI_API_KEY"]
 )
 
+
 def makeAPIRequestFreshSystem(systemMessage, user_message):
     chatgptData = {
         "session": {
@@ -20,6 +21,7 @@ def makeAPIRequestFreshSystem(systemMessage, user_message):
     )
     ai_response = response.choices[0].message.content
     return ai_response
+
 
 def makeAPIRequestFreshSystemTurbo(systemMessage, user_message):
     chatgptData = {

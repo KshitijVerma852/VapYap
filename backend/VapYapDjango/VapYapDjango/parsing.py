@@ -18,15 +18,17 @@ def returnJSONObject(request: HttpRequest):
     caseGeneration(motion, infoSlide, position)
     return JsonResponse({"ai_response": "dfdai_response"})
 
+
 def caseGeneration(motion, infoSlide, position):
-    
-    speechDetails = ("The motion you need to brainstorm reads: " +motion + " The info slide, if it exists reads: " + infoSlide + "You are to think of arguments for side :" + position)
+    speechDetails = (
+            "The motion you need to brainstorm reads: " + motion + " The info slide, if it exists reads: " + infoSlide + "You are to think of arguments for side :" + position)
     with open(BrainStormMessageFile, 'r') as file:
         brainStormMessage = file.read()
     brainStormedIdeas = makeAPIRequestFreshSystem(brainStormMessage, speechDetails)
     with open(BrainStormOutput, 'w') as file:
         file.write(brainStormedIdeas)
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
+
 
 def clean_RawArguments(input_filename, output_filename):
     with open(input_filename, 'r') as file:
@@ -45,6 +47,7 @@ def clean_RawArguments(input_filename, output_filename):
 
     print(f"Clean data has been written to {output_filename}")
 
+
 def answerArguments(input_filename, output_filename):
     with open(input_filename, 'r') as file:
         data = json.load(file)
@@ -62,7 +65,9 @@ def answerArguments(input_filename, output_filename):
 
     print(f"Answered data has been written to {output_filename}")
 
+
 def parse_RawArguments(input_filename, output_filename):
+    print("Parsing")
     debate_data = {}
     try:
         with open(output_filename, 'r') as file:
@@ -79,15 +84,26 @@ def parse_RawArguments(input_filename, output_filename):
     arguments = debate_data.get(speech_type, [])
 
     for line in lines[1:]:
+        rawArgumentType = line[0]
+        line = line[2:]
         line = line.strip().replace(' /n', '')
         last_space_index = line.rfind(' ')
         argument_text = line[:last_space_index].strip()
         argument_strength = line[last_space_index:].strip()
 
+        argumentType = ""
+        if rawArgumentType == "w":
+            argumentType = "weighing"
+        elif rawArgumentType == "a":
+            argumentType = "answer"
+        elif rawArgumentType == "c":
+            argumentType = "case"
+
         if not any(arg['text'] == argument_text for arg in arguments):
             arguments.append({
                 'text': argument_text,
-                'strength': int(argument_strength)
+                'strength': int(argument_strength),
+                'type': argumentType
             })
 
     debate_data[speech_type] = arguments
@@ -98,7 +114,8 @@ def parse_RawArguments(input_filename, output_filename):
 
     print(f"Data has been written to {output_filename}")
 
-rawDebateInput = os.getcwd() + '/VapYapDjango/content/speech.txt'
+
+rawDebateInput = os.getcwd() + '/VapYapDjango/content/speechWithArgumentTypes.txt'
 rawDebateOutput = os.getcwd() + '/VapYapDjango/content/RawTracking.json'
 cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/CleanTracking.json'
 answerDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerTracking.json'
