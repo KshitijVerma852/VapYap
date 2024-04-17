@@ -19,6 +19,22 @@
             "text": "Cliamte change also leads to heatwaves as ozone effect happens",
             "strength": 1,
             "type": "answer"
+        },
+        {
+            "text": "w ClimateChange is bad because it leads to air polution",
+            "strength": 1
+        },
+        {
+            "text": "a Air polution kills lots of people -- this happens because it gives them lung cancer",
+            "strength": 1
+        },
+        {
+            "text": "c Air polution also causes poverty -- decreases tourism which hurts econ",
+            "strength": 2
+        },
+        {
+            "text": "a Cliamte change also leads to heatwaves as ozone effect happens",
+            "strength": 1
         }
     ],
     "LO": [],
