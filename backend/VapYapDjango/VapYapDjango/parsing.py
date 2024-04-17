@@ -115,7 +115,7 @@ def parse_RawArguments(input_filename, output_filename):
     print(f"Data has been written to {output_filename}")
 
 
-rawDebateInput = os.getcwd() + '/VapYapDjango/content/speechWithArgumentTypes.txt'
+rawDebateInput = os.getcwd() + '/VapYapDjango/content/speech.txt'
 rawDebateOutput = os.getcwd() + '/VapYapDjango/content/RawTracking.json'
 cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/CleanTracking.json'
 answerDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerTracking.json'

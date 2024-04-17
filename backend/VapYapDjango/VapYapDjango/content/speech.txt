@@ -1,5 +1,5 @@
 PM
-ClimateChange is bad because it leads to air polution 1
-Air polution kills lots of people -- this happens because it gives them lung cancer 1
-Air polution also causes poverty -- decreases tourism which hurts econ 2
-Cliamte change also leads to heatwaves as ozone effect happens 1
+w ClimateChange is bad because it leads to air polution 1
+a Air polution kills lots of people -- this happens because it gives them lung cancer 1
+c Air polution also causes poverty -- decreases tourism which hurts econ 2
+a Cliamte change also leads to heatwaves as ozone effect happens 1
