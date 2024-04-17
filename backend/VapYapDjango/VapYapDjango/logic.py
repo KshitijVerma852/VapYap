@@ -18,7 +18,7 @@ def makeAPIRequestFreshSystem(systemMessage, user_message):
     response = client.chat.completions.create(
         model="gpt-4-turbo",
         messages=chatgptData["session"]['chat_history'],
-        max_tokens=3000
+        max_tokens=4096
     )
     ai_response = response.choices[0].message.content
     return ai_response

@@ -14,8 +14,8 @@ def returnJSONObject(request: HttpRequest):
     position = "OG"
 
     parse_RawArguments(rawDebateInput, rawDebateOutput)
-    clean_RawArguments(rawDebateOutput, cleanDebateOutput)
-    answerArguments(cleanDebateOutput, answerDebateOutput)
+    #clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+    #answerArguments(cleanDebateOutput, answerDebateOutput)
 
     #Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
     #Case generation only happens sometimes.
@@ -36,14 +36,14 @@ def caseGeneration(motion, infoSlide, position):
     with open(PMCaseGeneration, 'r') as file:
         PMMessage = file.read()
     
-    debateInfo = (speechDetails + "My ideas are below" + brainStormedIdeas)
+    debateInfo = ("The motion reads: " +motion + " The info slide, if it exists reads: " + infoSlide  + "My ideas for the motion are: " + brainStormedIdeas)
 
     PM = makeAPIRequestFreshSystem(PMMessage, debateInfo)
     print("Speech made of unknown length")
     lengthAdjustedPM = adjustLength(PM)
 
     with open(PMOutput, 'w') as file:
-        file.write(lengthAdjustedPM)
+        file.write(PM)
     print(f"Case has been written to {PMOutput}")
 
 
@@ -118,23 +118,26 @@ def parse_RawArguments(input_filename, output_filename):
     print(f"Data has been written to {output_filename}")
 
 def adjustLength(inputString):
-    space_count = len(inputString.split())
+    wordCount = len(inputString.split())
 
     with open(speechTooLongFile, 'r') as file:
         speechTooLong = file.read()
     with open(speechTooShortFile, 'r') as file:
         speechTooShort = file.read()
-    outputString = inputString
-    print("speech is currently " + str(space_count)+ " before adjustment")
-    if space_count > 1400:
+
+    print("speech is currently " + str(wordCount)+ " before adjustment")
+    if ((wordCount>800) & (wordCount < 1000)):
+        print("Acceptable length")
+        return inputString
+    elif wordCount > 1000:
         outputString = makeAPIRequestFreshSystem(speechTooLong, inputString)
         print("Speech made shorter")
         adjustLength(outputString)
-    if space_count < 1100:
-        outputString = makeAPIRequestFreshSystem(speechTooShort+str(space_count), inputString)
+    else:
+        outputString = makeAPIRequestFreshSystem(speechTooShort+str(wordCount), inputString)
         print("Speech made longer")
         adjustLength(outputString)
-
+    print("Speech acceptable length of "+ str(wordCount))
     return outputString
 
 

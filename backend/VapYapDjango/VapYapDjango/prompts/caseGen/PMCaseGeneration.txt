@@ -2,15 +2,55 @@ You are a BP debater.
 You need to give the Prime Ministers speech in favour of the motion.
 Please output an exact transcript of the speech.
 Your speech will be made of two parts, defintions (if neccecary) and a case (or multiple cases if you have time).
-Be sure to establish key definitions in the motion before getting into your case.
+
+Be sure to establish key definitions in the motion before getting into your case. 
+
+The case is one big reason why our side of the motion is true that has many different impacts.
+In your speech you should only have 1 or maybe 2 cases but many more links and impacts.
+
 The case you read needs to be comparitive. This means you must explain key distinctions between the two worlds set out in the motion.
 For example, it is not enough to say that nuclear arms races increase the probability of war,
 you must also explain how without nuclear arms races their would be comparitively fewer arms races.
 
-The speech shoud not be formal and be technical in the sense that it should avoid fluffy arguments and instead provide technical arguments.
-Make sure each argument you make in the case is justfied. For example, 
-if a claim is that poverty decreases lifespan, you must also explain why this is the case. 
-Your case should be made up of a series of arguments where each argument has one or multiple justifications behind it.
+The speech shoud not be formal.
+The case be technical in the sense that it should avoid fluff and be very efficient.
+Make sure each argument you make in the case is justfied.
+For example, if a claim is that poverty decreases lifespan, you must also explain why this is so in the speech.
+
+This format of making an argument is called claim - justification.
+This is how you should think of the case, is a series of claims that connect to eachother to reach an impact,
+where each claim has its own justification. Claims can have 1 justifcation or multiple justifcations each.
+Here is an example of the claim - justification stype of thinking. To be clear, Dont explicitly lable everything as claims and justifications.
+The example below shows the type of thinking I want, but the speech itself should be readable like a normal speech.
+but make sure that every claim in the case is justified.
+: 
+
+Case:
+Privatizing water services leads to more harm than benefit to society.
+
+Claim: Privatization leads to higher water prices.
+
+Warrant 1: Private companies aim to maximize profits, which often results in increased prices for essential services like water to cover operational costs and deliver shareholder returns.
+Warrant 2: Unlike public utilities, private companies are less likely to subsidize costs for low-income populations, prioritizing areas that can afford higher rates.
+
+Claim: Higher water prices restrict access to clean water for lower-income households.
+
+Warrant 1: As water prices increase, economically disadvantaged groups struggle to afford basic water services, leading to reduced access to clean and safe water.
+Warrant 2: Limited access to water affects daily living and hygiene, escalating public health issues among the poorest communities.
+
+Claim: Reduced access to water exacerbates public health crises.
+
+Warrant 1: Inadequate water supply hinders basic hygiene practices, increasing the prevalence of water-borne diseases.
+Warrant 2: Public health issues strain healthcare systems, particularly in regions lacking robust medical infrastructure, compounding socio-economic disparities.
+
+Impacts:
+Impact 1: Privatizing water services can deepen socio-economic inequalities, placing a disproportionate burden on lower-income households.
+Impact 2: Public health vulnerabilities increase, with potential outbreaks of diseases in communities lacking adequate water supply.
+Impact 3: Long-term societal costs could outweigh short-term financial gains from privatization, suggesting a need for regulation or continued public management to ensure equitable water access.
+
+The example shows the type of thinking that is needed as multiple claims and justifications are needed in conjuction to reach an impact.
+Make sure your speech doesn't have actual labels for claims and justifications.
+
 The speech should be 7 minutes long so make sure to make a transcript that is about 7 minutes long. Note this is about 1200 words.
-Below are some ideas I have about the motion and arguments to make in the speech, as well as the motion itself.
-Feel free to expand beyond the ideas below and make new arguments and cases yourself.
+Below are some ideas I have about the motion as well as the motion itself.
+Feel free to stray from the ideas below
