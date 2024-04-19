@@ -15,8 +15,8 @@ def returnJSONObject(request: HttpRequest):
     position = "OG"
 
     parse_RawArguments(rawDebateInput, rawDebateOutput)
-    clean_RawArguments(rawDebateOutput, cleanDebateOutput)
-    answerArguments(cleanDebateOutput, answerDebateOutput)
+    #clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+    #answerArguments(cleanDebateOutput, answerDebateOutput)
 
     #Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
     #Case generation only happens sometimes.
@@ -37,14 +37,14 @@ def caseGeneration(motion, infoSlide, position):
     with open(PMCaseGeneration, 'r') as file:
         PMMessage = file.read()
     
-    debateInfo = (speechDetails + "My ideas are below" + brainStormedIdeas)
+    debateInfo = ("The motion reads: " +motion + " The info slide, if it exists reads: " + infoSlide  + "My ideas for the motion are: " + brainStormedIdeas)
 
     PM = makeAPIRequestFreshSystem(PMMessage, debateInfo)
     print("Speech made of unknown length")
     lengthAdjustedPM = adjustLength(PM)
 
     with open(PMOutput, 'w') as file:
-        file.write(lengthAdjustedPM)
+        file.write(PM)
     print(f"Case has been written to {PMOutput}")
 
 
