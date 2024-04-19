@@ -13,7 +13,7 @@
             "strength": 2
         },
         {
-            "text": "Climate change also leads to heatwaves as the ozone effect occurs.",
+            "text": "Climate change also leads to heatwaves because of the ozone effect.",
             "strength": 1
         },
         {
@@ -21,7 +21,7 @@
             "strength": 1
         },
         {
-            "text": "Air pollution kills a lot of people because it causes them to develop lung cancer.",
+            "text": "Air pollution kills many people because it causes lung cancer.",
             "strength": 1
         },
         {
@@ -29,7 +29,7 @@
             "strength": 2
         },
         {
-            "text": "Climate change also leads to heatwaves due to the ozone effect.",
+            "text": "Climate change also leads to heatwaves as ozone's effect occurs.",
             "strength": 1
         }
     ],

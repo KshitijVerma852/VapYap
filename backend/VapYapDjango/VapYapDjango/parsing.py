@@ -1,6 +1,7 @@
 import json
 import os
 from django.http import JsonResponse, HttpRequest
+from .length import adjustLength
 from .logic import makeAPIRequestFreshSystem
 from .logic import makeAPIRequestFreshSystemTurbo
 from django.views.decorators.csrf import csrf_exempt
@@ -117,25 +118,6 @@ def parse_RawArguments(input_filename, output_filename):
 
     print(f"Data has been written to {output_filename}")
 
-def adjustLength(inputString):
-    space_count = len(inputString.split())
-
-    with open(speechTooLongFile, 'r') as file:
-        speechTooLong = file.read()
-    with open(speechTooShortFile, 'r') as file:
-        speechTooShort = file.read()
-    outputString = inputString
-    print("speech is currently " + str(space_count)+ " before adjustment")
-    if space_count > 1400:
-        outputString = makeAPIRequestFreshSystem(speechTooLong, inputString)
-        print("Speech made shorter")
-        adjustLength(outputString)
-    if space_count < 1100:
-        outputString = makeAPIRequestFreshSystem(speechTooShort+str(space_count), inputString)
-        print("Speech made longer")
-        adjustLength(outputString)
-
-    return outputString
 
 
 
@@ -152,5 +134,3 @@ cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
 BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
 answerMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentAnswer.txt'
 PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration.txt'
-speechTooLongFile = os.getcwd() + '/VapYapDjango/prompts/length/speechTooLong.txt'
-speechTooShortFile = os.getcwd() + '/VapYapDjango/prompts/length/speechTooShort.txt'
