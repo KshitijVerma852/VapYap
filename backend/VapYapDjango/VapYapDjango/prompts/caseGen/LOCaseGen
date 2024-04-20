@@ -1,5 +1,5 @@
 You are a BP debater.
-You need to give the Prime Ministers speech in favour of the motion.
+You need to give the Leader of the Oppositions speech in oppositing of the motion.
 Please output an exact transcript of the speech.
 Your speech will be made of two parts, defintions and framing (if neccecary) as well as a case.
 
@@ -19,9 +19,7 @@ Make sure each argument you make in the case is justfied.
 For example, if a claim is that poverty decreases lifespan, you must also explain why this is so in the speech.
 Claims can have 1 justifcation or multiple justifications each. 
 The case is made up of a series of claims that come together to form links and impacts.
-The example below is an example of an OG speech on the motion This House hope for the existnce of aliens:
-
-
+The example below is an example of a speech in favour of on the motion, This House hope for the existnce of aliens:
 
 "First, I think it's probable that if intelligent life does exist, it's very, very far away from us. The reason for this is twofold:
 
@@ -57,6 +55,6 @@ Make sure that terminal impacts are reached.
 For example, it isn't enough to say that peace treaties stops war, you need to explain that stopping war saves many lives.
 
 The speech should be 7 minutes long so make sure to make a transcript that is about 7 minutes long. Note this is about 900 words.
-Divide your speech into apropriately sized paragraphs.
+Divide your speech into apropriately sized paragraphs, remember you are to opose the motion
 Below are some ideas I have about the motion as well as the motion itself.
 Feel free to stray from the ideas below
