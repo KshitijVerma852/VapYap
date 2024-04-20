@@ -14,6 +14,7 @@ def returnJSONObject(request: HttpRequest):
     infoSlide = ""
     position = "OG"
     brainStormArguments(motion, infoSlide, position)
+    keyClashes(motion, infoSlide, position)
     parse_RawArguments(rawDebateInput, rawDebateOutput)
     clean_RawArguments(rawDebateOutput, cleanDebateOutput)
     answerArguments(cleanDebateOutput, answerDebateOutput)
@@ -25,7 +26,6 @@ def returnJSONObject(request: HttpRequest):
     caseGeneration(motion, infoSlide, position, speechNeeded)
 
     return JsonResponse({"ai_response": "dfdai_response"})
-
 
 def caseGeneration(motion, infoSlide, position, speechNeeded):
     
@@ -46,10 +46,23 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
         print(f"PM Case has been written to {PMOutput}")
     
     if speechNeeded == "LO":
-        
+        defintions = 0
+        with open(cleanDebateOutput, 'r') as file:
+            json_data = json.loads(file)
+        pm_speeches = json_data['PM']
+        for speech in pm_speeches:
+            if speech.get('type') == 'defintion':
+                defintions = defintions + 1
+        if defintions != 0:
+                debateInfo = debateInfo + "The key defintions from the OG speech were"
+                for speech in pm_speeches:
+                    if speech.get('type') == 'defintion':
+                        debateInfo = debateInfo + (speech.get('text')) + ",  "
+                        
+
         with open(LOCaseGeneration, 'r') as file:
-            LOMessage = file.read()
-        
+                LOMessage = file.read()
+            
         LO = makeAPIRequestFreshSystem(LOMessage, debateInfo)
         print("Speech made of unknown length")
         lengthAdjustedLO = adjustLength(LO)
@@ -67,6 +80,10 @@ def brainStormArguments(motion, infoSlide, position):
     with open(BrainStormOutput, 'w') as file:
         file.write(brainStormedIdeas)
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
+
+def keyClashes(motion, infoSlide, position):
+    #Understand key clashes of the debate
+    #Needed for case generation values
 
 def clean_RawArguments(input_filename, output_filename):
     with open(input_filename, 'r') as file:
