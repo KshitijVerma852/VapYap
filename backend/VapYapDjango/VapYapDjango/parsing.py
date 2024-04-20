@@ -41,10 +41,10 @@ def caseGeneration(motion, infoSlide, position):
 
     PM = makeAPIRequestFreshSystem(PMMessage, debateInfo)
     print("Speech made of unknown length")
-    #lengthAdjustedPM = adjustLength(PM)
+    lengthAdjustedPM = adjustLength(PM)
 
     with open(PMOutput, 'w') as file:
-        file.write(PM)
+        file.write(lengthAdjustedPM)
     print(f"Case has been written to {PMOutput}")
 
 

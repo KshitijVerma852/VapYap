@@ -1,6 +1,15 @@
 import os
+import array
 from .logic import makeAPIRequestFreshSystem
 from .logic import makeAPIRequestFreshSystemTurbo
+
+def split_into_paragraphs(text):
+    paragraphs = text.strip().split('\n')
+    paragraphs = [paragraph for paragraph in paragraphs if paragraph]
+    return paragraphs
+
+def join_paragraphs(paragraphs):
+    return '\n\n'.join(paragraphs)
 
 def adjustLength(inputString):
     space_count = len(inputString.split())
@@ -12,14 +21,21 @@ def adjustLength(inputString):
     outputString = inputString
     print("speech is currently " + str(space_count)+ " before adjustment")
     if space_count > 950:
-        outputString = makeAPIRequestFreshSystem(speechTooLong+str(space_count), inputString)
+        paragraphs = split_into_paragraphs(inputString)
+        newParagraphs = []
+        for paragraph in paragraphs:
+            newParagraphs.append(makeAPIRequestFreshSystemTurbo(speechTooLong, paragraph))
+        outputString = join_paragraphs(newParagraphs)
         print("Speech made shorter")
         adjustLength(outputString)
     if space_count < 850:
-        outputString = makeAPIRequestFreshSystem(speechTooShort+str(space_count), inputString)
+        paragraphs = split_into_paragraphs(inputString)
+        newParagraphs = []
+        for paragraph in paragraphs:
+            newParagraphs.append(makeAPIRequestFreshSystemTurbo(speechTooShort, paragraph))
+        outputString = join_paragraphs(newParagraphs)
         print("Speech made longer")
         adjustLength(outputString)
-
     return outputString
 
 
