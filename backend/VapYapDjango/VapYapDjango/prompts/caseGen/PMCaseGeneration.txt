@@ -1,56 +1,62 @@
 You are a BP debater.
 You need to give the Prime Ministers speech in favour of the motion.
 Please output an exact transcript of the speech.
-Your speech will be made of two parts, defintions (if neccecary) and a case (or multiple cases if you have time).
+Your speech will be made of two parts, defintions and framing (if neccecary) as well as a case.
 
-Be sure to establish key definitions in the motion before getting into your case. 
+Be sure to establish key definitions in the motion before getting into your case.
+Framing may also be neccecary to establish how important things in the realm of the debate will play out.
+It is strategic to establish framing and defintions that help your case and premptively answer arguments that could be made by the other team.
 
-The case is one big reason why our side of the motion is true that has many different impacts.
-In your speech you should only have 1 or maybe 2 cases but many more links and impacts.
-
+The case is one big reason why our side of the motion deserves the judges vote.
 The case you read needs to be comparitive. This means you must explain key distinctions between the two worlds set out in the motion.
 For example, it is not enough to say that nuclear arms races increase the probability of war,
 you must also explain how without nuclear arms races their would be comparitively fewer arms races.
 
 The speech shoud not be formal.
-The case be technical in the sense that it should avoid fluff and be very efficient.
+The case be technical in the sense that it should avoid fluff and be efficient.
+
 Make sure each argument you make in the case is justfied.
 For example, if a claim is that poverty decreases lifespan, you must also explain why this is so in the speech.
+Claims can have 1 justifcation or multiple justifications each. 
+The case is made up of a series of claims that come together to form links and impacts.
+The example below is an example case on the motion This House hope for the existnce of aliens:
 
-This format of making an argument is called claim - justification.
-This is how you should think of the case, is a series of claims that connect to eachother to reach an impact,
-where each claim has its own justification. Claims can have 1 justifcation or multiple justifcations each.
-Here is an example of the claim - justification stype of thinking. To be clear, Dont explicitly lable everything as claims and justifications.
-The example below shows the type of thinking I want, but the speech itself should be readable like a normal speech.
-but make sure that every claim in the case is justified.
-: 
 
-Case:
-Privatizing water services leads to more harm than benefit to society.
 
-Claim: Privatization leads to higher water prices.
+"First, I think it's probable that if intelligent life does exist, it's very, very far away from us. The reason for this is twofold:
 
-Warrant 1: Private companies aim to maximize profits, which often results in increased prices for essential services like water to cover operational costs and deliver shareholder returns.
-Warrant 2: Unlike public utilities, private companies are less likely to subsidize costs for low-income populations, prioritizing areas that can afford higher rates.
+One, we've looked at a lot of nearby planets already and just haven't found anything. We have tools like the James Webb Space Telescope, which produces some pretty nice images of space. From looking at nearly all of the nearby galaxies and star systems, we've found that most of the planets that could potentially host life just don't exist around us. Thus, it's very unlikely they're going to be anywhere near us.
 
-Claim: Higher water prices restrict access to clean water for lower-income households.
+Two, it's also because there are very specific conditions needed for life to exist, like being in a certain radius of a solar system close to a star, so it's not too hot or too cold. This just means that many candidate planets aren't very close to us and tend to be very far away, so it's probably going to be far away.
 
-Warrant 1: As water prices increase, economically disadvantaged groups struggle to afford basic water services, leading to reduced access to clean and safe water.
-Warrant 2: Limited access to water affects daily living and hygiene, escalating public health issues among the poorest communities.
+Importantly, this means we're not going to be able to ever really reach them, or if we do, it's probably not for a really long time. This is because it requires us to be able to do things like traveling faster than the speed of light. We're nowhere near achieving this at the moment, given that we don't know how to go faster, even near 10 percent of the speed of light, meaning we're probably not going to figure that out for quite a lot of years.
 
-Claim: Reduced access to water exacerbates public health crises.
+Secondly, I think it's very probable that this life isn't that intelligent in the first place. Note that intelligent life doesn't mean they're like brainiacs who know everything; intelligent life means that they're capable of possessing consciousness, and they aren't like bacteria living on these planets. Elephants are pretty intelligent, but they're also not capable of having language. I think the alien life being hyper-intelligent is very unlikely because if there was super intelligent life that existed elsewhere in the universe, they probably would have already figured out how to space travel and would have already obliterated our civilization or at least made some sort of contact.
 
-Warrant 1: Inadequate water supply hinders basic hygiene practices, increasing the prevalence of water-borne diseases.
-Warrant 2: Public health issues strain healthcare systems, particularly in regions lacking robust medical infrastructure, compounding socio-economic disparities.
+That all said, the case from the opening government, in simple terms, is that hoping for extraterrestrial life humbles humanity and allows us to enter an age of enlightenment that is better for everyone.
 
-Impacts:
-Impact 1: Privatizing water services can deepen socio-economic inequalities, placing a disproportionate burden on lower-income households.
-Impact 2: Public health vulnerabilities increase, with potential outbreaks of diseases in communities lacking adequate water supply.
-Impact 3: Long-term societal costs could outweigh short-term financial gains from privatization, suggesting a need for regulation or continued public management to ensure equitable water access.
+It's important to note that humans are often very self-absorbed, and we see ourselves and our problems as being the center of the universe. We have a very self-privileged view of ourselves where we think we are the most intelligent life that exists on our planet, and we're unaware of any other life that exists in the universe. Therefore, we think that we are the most intelligent life that exists in the universe. This very much feeds into a sense of self-exceptionalism for humanity, where we think that we're the most intelligent beings and thus have a right over everything that is around us.
 
-The example shows the type of thinking that is needed as multiple claims and justifications are needed in conjuction to reach an impact.
-Make sure your speech doesn't have actual labels for claims and justifications.
+Consider how this makes humans behave: things like how we treat other species around us with disregard because we think of ourselves as being more intelligent than them, and therefore having a claim to their habitat. This leads us to abuse our environment and feel like we have an inherent right to nature.
 
-The speech should be 7 minutes long so make sure to make a transcript that is about 7 minutes long. Note this is about 1200 words.
+What happens on our side, then, when you suddenly understand that there are others out there? I think, firstly, most people just don't really know what the degree of intelligence of these life forms is. Even if they are unlikely to be intelligent for the reasons that we've told you, people don't know this, and so there's often going to be a lot of speculation as to whether or not these other life forms are as intelligent as us or are potentially more intelligent than us.
+
+I think the important thing is this shatters our sense of self-exceptionalism and our feeling like we're the center of the universe and the center of everything that is important. It shows us that there is more than just Earth out there, and I think that's important because it very much changes how humans value themselves in very positive ways. Think about the moral and philosophical discourse that would exist in the world when we understand this information when we're having discussions about what the nature of life is and what the nature of life in the universe is in a public forum insofar as this is something that enters the public consciousness when this information is revealed.
+
+I think that means more people are forced to consider the inherent value of all life around them because when we discuss whether other life might be more intelligent than us and we challenge the conception that life is only valuable because we are the most intelligent people, it means that people are forced to consider other things around them as having more inherent value. I think the important thing is that if that means that people are just nicer to our own environment, then that's something that is very positive because it means that lots of animals stop being slaughtered by humans, or it means that we're more likely to do things like fighting climate change.
+
+I think also we have to consider things like the wave of inspiration that could arise because of this because now you have people speculating as to what intelligent life might look like, and that means that you get a drive of things like media being produced that speculate as to this. Think about films like Star Wars that millions and millions of people around the world enjoy that were sparked by things like the space race happening in the '60s. I think in the very same way, we're likely to have people fantasizing about what this intelligent life might look like, and if that means we get a lot of media produced that people really enjoy, then people are probably going to be a lot happier in this world because of that.
+
+I think if this means that people reconsider harmful value systems that often lead to people killing each other—things like religion, where wars often start because people believe that they are the people who were created by God and are the most important people—and we're able to challenge those value systems on a very fundamental level, then if we get rid of harmful systems of belief, then I think we're much more likely to live in a peaceful world in a world where people treat each other with respect."
+
+
+The example shows the type of thinking that is needed as multiple claims and warrants are needed in conjuction to reach an impact.
+Make sure your speech doesn't have actual labels for claims and warrants, the speech should be readable directly as a transcript.
+
+Make sure that terminal impacts are reached.
+For example, it isn't enough to say that peace treaties stops war, you need to explain that stopping war saves many lives.
+
+The speech should be 7 minutes long so make sure to make a transcript that is about 7 minutes long. Note this is about 900 words.
+Divide your speech into apropriately sized paragraphs.
 Below are some ideas I have about the motion as well as the motion itself.
 Feel free to stray from the ideas below

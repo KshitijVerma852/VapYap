@@ -11,11 +11,11 @@ def adjustLength(inputString):
         speechTooShort = file.read()
     outputString = inputString
     print("speech is currently " + str(space_count)+ " before adjustment")
-    if space_count > 1400:
-        outputString = makeAPIRequestFreshSystem(speechTooLong, inputString)
+    if space_count > 950:
+        outputString = makeAPIRequestFreshSystem(speechTooLong+str(space_count), inputString)
         print("Speech made shorter")
         adjustLength(outputString)
-    if space_count < 1100:
+    if space_count < 850:
         outputString = makeAPIRequestFreshSystem(speechTooShort+str(space_count), inputString)
         print("Speech made longer")
         adjustLength(outputString)

@@ -3,4 +3,4 @@ Please shorten it by removing fluff and unimportant parts.
 Preserve as much of the origional arguments as possible.
 The speech should be around 1100 words.
 Please output the new speech and only the new speech. Your output should be around 1100 words.
-Below is the speech that I need adjusted.
+Below is the speech that I need adjusted. My current speechs word count is 
