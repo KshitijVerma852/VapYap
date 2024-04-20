@@ -10,7 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
     print("Start running")
-    brainStormArguments()
     motion ="This House believes that democratic states should grant an amnesty to whistleblowers who expose unethical practices in the government."
     infoSlide = ""
     position = "OG"
@@ -21,7 +20,7 @@ def returnJSONObject(request: HttpRequest):
 
     #Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
     #Case generation only happens sometimes.
-    speechNeeded = "OG"
+    speechNeeded = "LO"
 
     caseGeneration(motion, infoSlide, position, speechNeeded)
 
@@ -94,7 +93,7 @@ def answerArguments(input_filename, output_filename):
     clean_data = {}
     for speech_type, arguments in data.items():
         clean_data[speech_type] = [{
-            'text': makeAPIRequestFreshSystem(answerMessage, arg['text']),
+            'text': makeAPIRequestFreshSystemTurbo(answerMessage, arg['text']),
             'strength': arg['strength']
         } for arg in arguments]
 
