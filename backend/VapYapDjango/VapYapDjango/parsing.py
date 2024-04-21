@@ -13,12 +13,13 @@ def returnJSONObject(request: HttpRequest):
     motion ="This House believes that democratic states should grant an amnesty to whistleblowers who expose unethical practices in the government."
     infoSlide = ""
     position = "OG"
-    brainStormArguments(motion, infoSlide, position)
-    broadSummary()
     parse_RawArguments(rawDebateInput, rawDebateOutput)
+    brainStormArguments(motion, infoSlide, position)
     clean_RawArguments(rawDebateOutput, cleanDebateOutput)
     answerArguments(cleanDebateOutput, answerDebateOutput)
 
+    summary = broadSummary()
+    print(summary)
 
     #Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
     #Case generation only happens sometimes.
@@ -49,8 +50,8 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
         defintions = 0
         json_data = read_json(cleanDebateOutput)
         pm_speeches = json_data['PM']
-        for speech in pm_speeches:
-            if speech.get('type') == 'defintion':
+        for argument in pm_speeches:
+            if argument.get('type') == 'defintion':
                 defintions = defintions + 1
         if defintions != 0:
                 debateInfo = debateInfo + "The key defintions from the OG speech were"
@@ -74,24 +75,36 @@ def brainStormArguments(motion, infoSlide, position):
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
 
 def broadSummary():
-    summary_parts = []
-    with open(cleanDebateOutput, 'r') as file:
-        json = json.load(file)
-        for speech in json:
-            if json[speech]:
-                speechSummary = summarize(speech)
-                summary_parts.append(speechSummary)
-    broad_summary = " Next speech was ".join(summary_parts)
-    return broad_summary
+    debate_data = json.loads(read_file(cleanDebateOutput))
 
+    team_roles = {
+        "OG": ["PM", "DPM"],
+        "OO": ["LO", "DLO"],
+        "CG": ["MG", "GW"],
+        "CO": ["MO", "OW"]
+    }
+    summary = []
+    
+    for team, roles in team_roles.items():
+        team_summary = []
+        for role in roles:
+            speech = debate_data.get(role, [])
+            if speech:
+                summarized_text = summarize(speech)
+                team_summary.append(f"{role} argued that {summarized_text}")
+    
+        if team_summary:
+            team_summary_joined = " and also ".join(team_summary)
+            summary.append(f"{team} has stated: {team_summary_joined}")
+    
+    return " ".join(summary)
 
 def summarize(speech):
-    with open(cleanDebateOutput, 'r') as file:
-        json = json.load(file)
-    speech = json.get(speech, [])
-    text = [entry['text'] for entry in speech]
-    combined_text = " and also that ".join(text)
+    texts = [argument['text'] for argument in speech]
+    combined_text = " Next they said ".join(texts)
     return combined_text
+
+
 
 def clean_RawArguments(input_filename, output_filename):
     data = read_json(input_filename)
@@ -104,7 +117,7 @@ def clean_RawArguments(input_filename, output_filename):
             'strength': arg['strength']
         } for arg in arguments]
 
-    write_file(output_filename, clean_data)
+    write_json(output_filename, clean_data)
     print(f"Clean data has been written to {output_filename}")
 
 def answerArguments(input_filename, output_filename):
