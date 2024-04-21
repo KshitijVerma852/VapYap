@@ -2,6 +2,7 @@ import json
 import os
 from django.http import JsonResponse, HttpRequest
 from .length import adjustLength
+from .process import broadSummary
 from .logic import makeAPIRequestFreshSystem
 from .logic import makeAPIRequestFreshSystemTurbo
 from django.views.decorators.csrf import csrf_exempt
@@ -73,37 +74,6 @@ def brainStormArguments(motion, infoSlide, position):
     brainStormedIdeas = makeAPIRequestFreshSystem(brainStormMessage, speechDetails)
     write_file(BrainStormOutput, brainStormedIdeas)
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
-
-def broadSummary():
-    debate_data = json.loads(read_file(cleanDebateOutput))
-
-    team_roles = {
-        "OG": ["PM", "DPM"],
-        "OO": ["LO", "DLO"],
-        "CG": ["MG", "GW"],
-        "CO": ["MO", "OW"]
-    }
-    summary = []
-    
-    for team, roles in team_roles.items():
-        team_summary = []
-        for role in roles:
-            speech = debate_data.get(role, [])
-            if speech:
-                summarized_text = summarize(speech)
-                team_summary.append(f"{role} argued that {summarized_text}")
-    
-        if team_summary:
-            team_summary_joined = " and also ".join(team_summary)
-            summary.append(f"{team} has stated: {team_summary_joined}")
-    
-    return " ".join(summary)
-
-def summarize(speech):
-    texts = [argument['text'] for argument in speech]
-    combined_text = " Next they said ".join(texts)
-    return combined_text
-
 
 
 def clean_RawArguments(input_filename, output_filename):
