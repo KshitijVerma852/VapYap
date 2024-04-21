@@ -14,13 +14,16 @@ def returnJSONObject(request: HttpRequest):
     infoSlide = ""
     position = "OG"
     brainStormArguments(motion, infoSlide, position)
-    #broadSummary(motion, infoSlide, position)
+    broadSummary()
     parse_RawArguments(rawDebateInput, rawDebateOutput)
     clean_RawArguments(rawDebateOutput, cleanDebateOutput)
     answerArguments(cleanDebateOutput, answerDebateOutput)
 
+
     #Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
     #Case generation only happens sometimes.
+
+
     speechNeeded = "LO"
 
     caseGeneration(motion, infoSlide, position, speechNeeded)
@@ -28,27 +31,23 @@ def returnJSONObject(request: HttpRequest):
     return JsonResponse({"ai_response": "dfdai_response"})
 
 def caseGeneration(motion, infoSlide, position, speechNeeded):
-    
-    with open(BrainStormOutput, 'r') as file:
-        brainStormedIdeas = file.read()
+
+    brainStormedIdeas = read_file(BrainStormOutput)
     debateInfo = ("The motion reads: " +motion + " The info slide, if it exists reads: " + infoSlide  + "My ideas for the motion are: " + brainStormedIdeas)
 
     if speechNeeded == "PM":
-        with open(PMCaseGeneration, 'r') as file:
-            PMMessage = file.read()
-        
-        PM = makeAPIRequestFreshSystem(PMMessage, debateInfo)
-        print("Speech made of unknown length")
-        lengthAdjustedPM = adjustLength(PM)
-
-        with open(PMOutput, 'w') as file:
-            file.write(lengthAdjustedPM)
-        print(f"PM Case has been written to {PMOutput}")
     
+        PMMessage = read_file(PMCaseGeneration)
+        PM = makeAPIRequestFreshSystem(PMMessage, debateInfo)
+        lengthAdjustedPM = adjustLength(PM)
+        write_file(PMOutput, lengthAdjustedPM)
+        
+        print(f"PM Case has been written to {PMOutput}")
+
     if speechNeeded == "LO":
+        
         defintions = 0
-        with open(cleanDebateOutput, 'r') as file:
-            json_data = json.loads(file)
+        json_data = read_json(cleanDebateOutput)
         pm_speeches = json_data['PM']
         for speech in pm_speeches:
             if speech.get('type') == 'defintion':
@@ -60,25 +59,18 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
                         debateInfo = debateInfo + (speech.get('text')) + ",  "
                         
 
-        with open(LOCaseGeneration, 'r') as file:
-                LOMessage = file.read()
-            
+        LOMessage = read_file(LOCaseGeneration)
         LO = makeAPIRequestFreshSystem(LOMessage, debateInfo)
-        print("Speech made of unknown length")
         lengthAdjustedLO = adjustLength(LO)
-
-        with open(PMOutput, 'w') as file:
-            file.write(lengthAdjustedLO)
+        write_file(LOOutput, lengthAdjustedLO)
+        
         print(f"LO Case has been written to {LOOutput}")
     
 def brainStormArguments(motion, infoSlide, position):
-    speechDetails = ("The motion you need to brainstorm reads: " +motion + " The info slide, if it exists reads: " + infoSlide + "You are to think of arguments for side :" + position)
-    with open(BrainStormMessageFile, 'r') as file:
-        brainStormMessage = file.read()
+    speechDetails = f"The motion you need to brainstorm reads: {motion} The info slide, if it exists reads: {infoSlide} You are to think of arguments for side :{position}"
+    brainStormMessage = read_file(BrainStormMessageFile)
     brainStormedIdeas = makeAPIRequestFreshSystem(brainStormMessage, speechDetails)
-    
-    with open(BrainStormOutput, 'w') as file:
-        file.write(brainStormedIdeas)
+    write_file(BrainStormOutput, brainStormedIdeas)
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
 
 def broadSummary():
@@ -102,10 +94,9 @@ def summarize(speech):
     return combined_text
 
 def clean_RawArguments(input_filename, output_filename):
-    with open(input_filename, 'r') as file:
-        data = json.load(file)
-    with open(cleanMessageFile, 'r') as file:
-        cleanMessage = file.read()
+    data = read_json(input_filename)
+    cleanMessage = read_file(cleanMessageFile)
+
     clean_data = {}
     for speech_type, arguments in data.items():
         clean_data[speech_type] = [{
@@ -113,16 +104,12 @@ def clean_RawArguments(input_filename, output_filename):
             'strength': arg['strength']
         } for arg in arguments]
 
-    with open(output_filename, 'w') as file:
-        json.dump(clean_data, file, indent=4)
-
+    write_file(output_filename, clean_data)
     print(f"Clean data has been written to {output_filename}")
 
 def answerArguments(input_filename, output_filename):
-    with open(input_filename, 'r') as file:
-        data = json.load(file)
-    with open(answerMessageFile, 'r') as file:
-        answerMessage = file.read()
+    data = read_json(input_filename)
+    answerMessage = read_file(answerMessageFile)
     clean_data = {}
     for speech_type, arguments in data.items():
         clean_data[speech_type] = [{
@@ -130,8 +117,7 @@ def answerArguments(input_filename, output_filename):
             'strength': arg['strength']
         } for arg in arguments]
 
-    with open(output_filename, 'w') as file:
-        json.dump(clean_data, file, indent=4)
+    write_json(output_filename, clean_data)
 
     print(f"Answered data has been written to {output_filename}")
 
@@ -170,6 +156,23 @@ def parse_RawArguments(input_filename, output_filename):
         json_file.write(debate_data_json)
 
     print(f"Data has been written to {output_filename}")
+
+
+def read_file(filepath):
+    with open(filepath, 'r') as file:
+        return file.read()
+
+def write_file(filepath, content):
+    with open(filepath, 'w') as file:
+        file.write(content)
+
+def read_json(filepath):
+    with open(filepath, 'r') as file:
+        return json.load(file)
+
+def write_json(filepath, data):
+    with open(filepath, 'w') as file:
+        json.dump(data, file, indent=4)
 
 
 rawDebateInput = os.getcwd() + '/VapYapDjango/content/speech.txt'
