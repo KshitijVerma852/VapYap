@@ -1,5 +1,4 @@
 import os
-import array
 from .logic import makeAPIRequestFreshSystem
 from .logic import makeAPIRequestFreshSystemTurbo
 

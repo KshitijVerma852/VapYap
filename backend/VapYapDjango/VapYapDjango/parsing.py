@@ -14,7 +14,7 @@ def returnJSONObject(request: HttpRequest):
     infoSlide = ""
     position = "OG"
     brainStormArguments(motion, infoSlide, position)
-    keyClashes(motion, infoSlide, position)
+    #broadSummary(motion, infoSlide, position)
     parse_RawArguments(rawDebateInput, rawDebateOutput)
     clean_RawArguments(rawDebateOutput, cleanDebateOutput)
     answerArguments(cleanDebateOutput, answerDebateOutput)
@@ -81,9 +81,25 @@ def brainStormArguments(motion, infoSlide, position):
         file.write(brainStormedIdeas)
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
 
-def keyClashes(motion, infoSlide, position):
-    #Understand key clashes of the debate
-    #Needed for case generation values
+def broadSummary():
+    summary_parts = []
+    with open(cleanDebateOutput, 'r') as file:
+        json = json.load(file)
+        for speech in json:
+            if json[speech]:
+                speechSummary = summarize(speech)
+                summary_parts.append(speechSummary)
+    broad_summary = " Next speech was ".join(summary_parts)
+    return broad_summary
+
+
+def summarize(speech):
+    with open(cleanDebateOutput, 'r') as file:
+        json = json.load(file)
+    speech = json.get(speech, [])
+    text = [entry['text'] for entry in speech]
+    combined_text = " and also that ".join(text)
+    return combined_text
 
 def clean_RawArguments(input_filename, output_filename):
     with open(input_filename, 'r') as file:
