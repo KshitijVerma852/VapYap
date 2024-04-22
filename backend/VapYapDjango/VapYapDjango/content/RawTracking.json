@@ -37,8 +37,25 @@
             "strength": 1
         }
     ],
-    "LO": [],
-    "DPM": [],
+    "LO": [
+        {
+            "text": "Lo Made this argument, whatever it may be",
+            "strength": 1,
+            "type": "weighed"
+        },
+        {
+            "text": "Lo Made this argument, whatever it may be",
+            "strength": 1,
+            "type": "weighed"
+        }
+    ],
+    "DPM": [
+        {
+            "text": "DPM Made this argument",
+            "strength": 1,
+            "type": "weighed"
+        }
+    ],
     "DLO": [],
     "MG": [],
     "MO": [],

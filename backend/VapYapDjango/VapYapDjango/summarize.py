@@ -1,5 +1,6 @@
 import json
 import os
+
 def broadSummary():
     debate_data = json.loads(read_file(cleanDebateOutput))
 
@@ -22,13 +23,14 @@ def broadSummary():
         if team_summary:
             team_summary_joined = " and also ".join(team_summary)
             summary.append(f"{team} has stated: {team_summary_joined}")
-    
+    print("Broad Summary made")
     return " ".join(summary)
 
 def summarize(speech):
     texts = [argument['text'] for argument in speech]
     combined_text = " Next they said ".join(texts)
     return combined_text
+
 
 def read_file(filepath):
     with open(filepath, 'r') as file:

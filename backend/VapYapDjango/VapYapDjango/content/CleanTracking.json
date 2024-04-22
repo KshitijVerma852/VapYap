@@ -1,40 +1,61 @@
 {
     "PM": [
         {
-            "text": "Climate change is bad because it leads to air pollution.",
+            "text": "ClimateChange is bad because it leads to air polution",
+            "strength": 1,
+            "type": "weighed"
+        },
+        {
+            "text": "Air polution kills lots of people -- this happens because it gives them lung cancer",
+            "strength": 1,
+            "type": "answer"
+        },
+        {
+            "text": "Air polution also causes poverty -- decreases tourism which hurts econ",
+            "strength": 2,
+            "type": "case"
+        },
+        {
+            "text": "Cliamte change also leads to heatwaves as ozone effect happens",
+            "strength": 1,
+            "type": "answer"
+        },
+        {
+            "text": "w ClimateChange is bad because it leads to air polution",
             "strength": 1
         },
         {
-            "text": "Air pollution kills many people because it causes lung cancer.",
+            "text": "a Air polution kills lots of people -- this happens because it gives them lung cancer",
             "strength": 1
         },
         {
-            "text": "Air pollution also causes poverty as it decreases tourism, harming the economy.",
+            "text": " (Air polution also causes poverty -- decreases tourism which hurts econ)",
             "strength": 2
         },
         {
-            "text": "Climate change also leads to heatwaves due to the ozone effect.",
-            "strength": 1
-        },
-        {
-            "text": "Climate change is bad because it leads to air pollution.",
-            "strength": 1
-        },
-        {
-            "text": "Air pollution kills many people because it causes lung cancer.",
-            "strength": 1
-        },
-        {
-            "text": "Air pollution also causes poverty by decreasing tourism, which harms the economy.",
-            "strength": 2
-        },
-        {
-            "text": "Climate change also leads to heatwaves as the ozone effect takes place.",
+            "text": "(a Cliamte change also leads to heatwaves as ozone effect happens)",
             "strength": 1
         }
     ],
-    "LO": [],
-    "DPM": [],
+    "LO": [
+        {
+            "text": "(Lo Made this argument, whatever it may be)",
+            "strength": 1,
+            "type": "weighed"
+        },
+        {
+            "text": "(Lo Made this argument, whatever it may be)",
+            "strength": 1,
+            "type": "weighed"
+        }
+    ],
+    "DPM": [
+        {
+            "text": "(DPM Made this argument)",
+            "strength": 1,
+            "type": "weighed"
+        }
+    ],
     "DLO": [],
     "MG": [],
     "MO": [],

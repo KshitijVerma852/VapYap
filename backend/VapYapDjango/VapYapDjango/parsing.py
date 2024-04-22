@@ -2,11 +2,10 @@ import json
 import os
 from django.http import JsonResponse, HttpRequest
 from .length import adjustLength
-from .process import broadSummary
+from .summarize import broadSummary
 from .logic import makeAPIRequestFreshSystem
 from .logic import makeAPIRequestFreshSystemTurbo
 from django.views.decorators.csrf import csrf_exempt
-
 
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
@@ -15,12 +14,11 @@ def returnJSONObject(request: HttpRequest):
     infoSlide = ""
     position = "OG"
     parse_RawArguments(rawDebateInput, rawDebateOutput)
-    brainStormArguments(motion, infoSlide, position)
-    clean_RawArguments(rawDebateOutput, cleanDebateOutput)
-    answerArguments(cleanDebateOutput, answerDebateOutput)
+    #brainStormArguments(motion, infoSlide, position)
+    #clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+    #answerArguments(cleanDebateOutput, answerDebateOutput)
 
     summary = broadSummary()
-    print(summary)
 
     #Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
     #Case generation only happens sometimes.
@@ -28,7 +26,7 @@ def returnJSONObject(request: HttpRequest):
 
     speechNeeded = "LO"
 
-    caseGeneration(motion, infoSlide, position, speechNeeded)
+    #caseGeneration(motion, infoSlide, position, speechNeeded)
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
@@ -46,7 +44,7 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
         
         print(f"PM Case has been written to {PMOutput}")
 
-    if speechNeeded == "LO":
+    elif speechNeeded == "LO":
         
         defintions = 0
         json_data = read_json(cleanDebateOutput)
@@ -68,6 +66,17 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
         
         print(f"LO Case has been written to {LOOutput}")
     
+    elif speechNeeded == "MG":
+        summary = broadSummary()
+
+
+    elif speechNeeded == "MO":
+        summary = broadSummary()
+
+    else:
+        print("Invalid speech type")
+
+
 def brainStormArguments(motion, infoSlide, position):
     speechDetails = f"The motion you need to brainstorm reads: {motion} The info slide, if it exists reads: {infoSlide} You are to think of arguments for side :{position}"
     brainStormMessage = read_file(BrainStormMessageFile)
@@ -75,6 +84,14 @@ def brainStormArguments(motion, infoSlide, position):
     write_file(BrainStormOutput, brainStormedIdeas)
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
 
+def brainStormBroadAnswers():
+    return
+
+def brainStormInteractions():
+    return
+
+def evalValue():
+    return
 
 def clean_RawArguments(input_filename, output_filename):
     data = read_json(input_filename)
