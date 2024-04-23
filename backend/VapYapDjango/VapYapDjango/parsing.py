@@ -183,7 +183,7 @@ BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
 
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
-
+MGOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
 
 
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
@@ -192,3 +192,5 @@ answerMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentAnswer.txt'
 
 PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration.txt'
 LOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/LOCaseGeneration.txt'
+MGCaseDecison = os.getcwd() + '/VapYapDjango/prompts/caseGen/caseDecision/MGCaseDecision.txt'
+MGCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/MGCaseGeneration.txt'
