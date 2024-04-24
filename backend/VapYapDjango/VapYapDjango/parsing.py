@@ -7,45 +7,47 @@ from .logic import makeAPIRequestFreshSystem
 from .logic import makeAPIRequestFreshSystemTurbo
 from django.views.decorators.csrf import csrf_exempt
 
+
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
     print("Start running")
-    motion ="This House believes that democratic states should grant an amnesty to whistleblowers who expose unethical practices in the government."
+    motion = "This House believes that democratic states should grant an amnesty to whistleblowers who expose unethical practices in the government."
     infoSlide = ""
-    position = "OG"
+    position = "MG"
     parse_RawArguments(rawDebateInput, rawDebateOutput)
-    #brainStormArguments(motion, infoSlide, position)
-    #clean_RawArguments(rawDebateOutput, cleanDebateOutput)
-    #answerArguments(cleanDebateOutput, answerDebateOutput)
+    # brainStormArguments(motion, infoSlide, position)
+    # clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+    # answerArguments(cleanDebateOutput, answerDebateOutput)
 
     summary = broadSummary()
 
-    #Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
-    #Case generation only happens sometimes.
+    # Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
+    # Case generation only happens sometimes.
 
+    speechNeeded = "MG"
 
-    speechNeeded = "LO"
-
-    #caseGeneration(motion, infoSlide, position, speechNeeded)
+    caseGeneration(motion, infoSlide, position, speechNeeded)
 
     return JsonResponse({"ai_response": "dfdai_response"})
+
 
 def caseGeneration(motion, infoSlide, position, speechNeeded):
 
     brainStormedIdeas = read_file(BrainStormOutput)
-    debateInfo = ("The motion reads: " +motion + " The info slide, if it exists reads: " + infoSlide  + "My ideas for the motion are: " + brainStormedIdeas)
+    debateInfo = ("The motion reads: " + motion + " The info slide, if it exists reads: " +
+                  infoSlide + "My ideas for the motion are: " + brainStormedIdeas)
 
     if speechNeeded == "PM":
-    
+
         PMMessage = read_file(PMCaseGeneration)
         PM = makeAPIRequestFreshSystem(PMMessage, debateInfo)
         lengthAdjustedPM = adjustLength(PM)
         write_file(PMOutput, lengthAdjustedPM)
-        
+
         print(f"PM Case has been written to {PMOutput}")
 
     elif speechNeeded == "LO":
-        
+
         defintions = 0
         json_data = read_json(cleanDebateOutput)
         pm_speeches = json_data['PM']
@@ -53,32 +55,35 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
             if argument.get('type') == 'defintion':
                 defintions = defintions + 1
         if defintions != 0:
-                debateInfo = debateInfo + "The key defintions from the OG speech were"
-                for speech in pm_speeches:
-                    if speech.get('type') == 'defintion':
-                        debateInfo = debateInfo + (speech.get('text')) + ",  "
-                        
+            debateInfo = debateInfo + "The key defintions from the OG speech were"
+            for speech in pm_speeches:
+                if speech.get('type') == 'defintion':
+                    debateInfo = debateInfo + (speech.get('text')) + ",  "
 
         LOMessage = read_file(LOCaseGeneration)
         LO = makeAPIRequestFreshSystem(LOMessage, debateInfo)
         lengthAdjustedLO = adjustLength(LO)
         write_file(LOOutput, lengthAdjustedLO)
-        
+
         print(f"LO Case has been written to {LOOutput}")
-    
+
     elif speechNeeded == "MG":
         summary = broadSummary()
-        debateInfo = debateInfo + "The summary of the debate so far speech by speech is: " + summary
+        debateInfo = debateInfo + \
+            "The summary of the debate so far speech by speech is: " + summary
         MGCaseDecisonMessage = read_file(MGCaseDecison)
         MGCaseGenerationMessage = read_file(MGCaseGeneration)
-        MGCaseDecision = makeAPIRequestFreshSystem(MGCaseDecisonMessage, debateInfo)
-        caseInfo = ("The motion reads: " +motion +
-                     " The info slide, if it exists reads: " +
-                       infoSlide  +
-                        "My loose plan for the case are: " +
-                          MGCaseDecision)
+        MGCaseDecision = makeAPIRequestFreshSystem(
+            MGCaseDecisonMessage, debateInfo)
+        print("The MG case decision has been made " + MGCaseDecision)
+        caseInfo = ("The motion reads: " + motion +
+                    " The info slide, if it exists reads: " +
+                    infoSlide +
+                    "My loose plan for the case are: " +
+                    MGCaseDecision)
         MGCase = makeAPIRequestFreshSystem(MGCaseGenerationMessage, caseInfo)
-        print(MGCase)
+        write_file(MGCase, MGCase)
+        print(f"MG Case has been written to {MGCaseOutput}")
 
     elif speechNeeded == "MO":
         summary = broadSummary()
@@ -88,20 +93,26 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
 
 
 def brainStormArguments(motion, infoSlide, position):
-    speechDetails = f"The motion you need to brainstorm reads: {motion} The info slide, if it exists reads: {infoSlide} You are to think of arguments for side :{position}"
+    speechDetails = f"The motion you need to brainstorm reads: {motion} The info slide, if it exists reads: {
+        infoSlide} You are to think of arguments for side :{position}"
     brainStormMessage = read_file(BrainStormMessageFile)
-    brainStormedIdeas = makeAPIRequestFreshSystem(brainStormMessage, speechDetails)
+    brainStormedIdeas = makeAPIRequestFreshSystem(
+        brainStormMessage, speechDetails)
     write_file(BrainStormOutput, brainStormedIdeas)
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
+
 
 def brainStormBroadAnswers():
     return
 
+
 def brainStormInteractions():
     return
 
+
 def evalValue():
     return
+
 
 def clean_RawArguments(input_filename, output_filename):
     data = read_json(input_filename)
@@ -117,6 +128,7 @@ def clean_RawArguments(input_filename, output_filename):
     write_json(output_filename, clean_data)
     print(f"Clean data has been written to {output_filename}")
 
+
 def answerArguments(input_filename, output_filename):
     data = read_json(input_filename)
     answerMessage = read_file(answerMessageFile)
@@ -131,6 +143,7 @@ def answerArguments(input_filename, output_filename):
 
     print(f"Answered data has been written to {output_filename}")
 
+
 def parse_RawArguments(input_filename, output_filename):
     debate_data = {}
     try:
@@ -139,7 +152,8 @@ def parse_RawArguments(input_filename, output_filename):
             if not isinstance(debate_data, dict):
                 raise ValueError("Expected a dictionary in the JSON file")
     except (FileNotFoundError, ValueError):
-        debate_data = {key: [] for key in ['PM', 'LO', 'DPM', 'DLO', 'MG', 'MO', 'GW', 'OW']}
+        debate_data = {key: []
+                       for key in ['PM', 'LO', 'DPM', 'DLO', 'MG', 'MO', 'GW', 'OW']}
 
     with open(input_filename, 'r') as file:
         lines = file.readlines()
@@ -172,13 +186,16 @@ def read_file(filepath):
     with open(filepath, 'r') as file:
         return file.read()
 
+
 def write_file(filepath, content):
     with open(filepath, 'w') as file:
         file.write(content)
 
+
 def read_json(filepath):
     with open(filepath, 'r') as file:
         return json.load(file)
+
 
 def write_json(filepath, data):
     with open(filepath, 'w') as file:
@@ -193,7 +210,7 @@ BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
 
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
-MGOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
+MGCaseOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
 
 
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'

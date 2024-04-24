@@ -1,62 +1,62 @@
 {
     "PM": [
         {
-            "text": "ClimateChange is bad because it leads to air polution",
-            "strength": 1,
-            "type": "weighed"
-        },
-        {
-            "text": "Air polution kills lots of people -- this happens because it gives them lung cancer",
-            "strength": 1,
-            "type": "answer"
-        },
-        {
-            "text": "Air polution also causes poverty -- decreases tourism which hurts econ",
+            "text": "Granting amnesty to whistleblowers protects freedom of information, ensuring that the public remains informed about government actions that could affect their lives and society.",
             "strength": 2,
             "type": "case"
         },
         {
-            "text": "Cliamte change also leads to heatwaves as ozone effect happens",
-            "strength": 1,
-            "type": "answer"
-        },
-        {
-            "text": "w ClimateChange is bad because it leads to air polution",
-            "strength": 1
-        },
-        {
-            "text": "a Air polution kills lots of people -- this happens because it gives them lung cancer",
-            "strength": 1
-        },
-        {
-            "text": " (Air polution also causes poverty -- decreases tourism which hurts econ)",
-            "strength": 2
-        },
-        {
-            "text": "(a Cliamte change also leads to heatwaves as ozone effect happens)",
-            "strength": 1
+            "text": "Whistleblowers expose risks and unethical actions that can prevent catastrophic outcomes before they happen, thus they serve a preventive role in governance.",
+            "strength": 2,
+            "type": "weighed"
         }
     ],
     "LO": [
         {
-            "text": "(Lo Made this argument, whatever it may be)",
-            "strength": 1,
-            "type": "weighed"
+            "text": "Granting amnesty could undermine the legal system by setting a precedent that breaking confidentiality agreements and laws can be overlooked if deemed morally right by the public.",
+            "strength": 2,
+            "type": "case"
         },
         {
-            "text": "(Lo Made this argument, whatever it may be)",
-            "strength": 1,
-            "type": "weighed"
+            "text": "There's a risk that granting amnesty could encourage malicious leaking of sensitive information under the guise of whistleblowing, potentially threatening national security.",
+            "strength": 2,
+            "type": "answer"
         }
     ],
     "DPM": [
         {
-            "text": "(DPM Made this argument)",
-            "strength": 1,
+            "text": "Amnesty is crucial for fostering an environment where individuals are encouraged to report wrongdoings without fear of retribution, thereby strengthening democratic processes.",
+            "strength": 2,
+            "type": "case"
+        },
+        {
+            "text": "Responding to the opposition's concern about national security, proper channels and whistleblower protections exist precisely to ensure that such disclosures are made responsibly.",
+            "strength": 2,
+            "type": "answer"
+        },
+        {
+            "text": "Comparing the impact, the benefit of correcting unethical practices and preventing potential harm outweighs the risks posed by potentially misplaced leaks.",
+            "strength": 2,
             "type": "weighed"
         }
     ],
-    "DLO": [],
+    "DLO": [
+        {
+            "text": "The potential for abuse in the system where whistleblowers are granted amnesty is high; not all acts of whistleblowing are noble or correctly informed.",
+            "strength": 2,
+            "type": "case"
+        },
+        {
+            "text": "In response to DPM's argument about fostering a safe environment, without strict penalties for breaching confidentiality, we risk creating a too-permissive culture that may lead to careless handling of sensitive information.",
+            "strength": 2,
+            "type": "answer"
+        },
+        {
+            "text": "Weighing the risks, the negative impact of potentially endangering public safety and security by careless or malicious information leaks must be prioritized over the unguaranteed benefits of exposing unethical practices.",
+            "strength": 2,
+            "type": "weighed"
+        }
+    ],
     "MG": [],
     "MO": [],
     "GW": [],
