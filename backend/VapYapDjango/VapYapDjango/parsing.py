@@ -68,7 +68,17 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
     
     elif speechNeeded == "MG":
         summary = broadSummary()
-
+        debateInfo = debateInfo + "The summary of the debate so far speech by speech is: " + summary
+        MGCaseDecisonMessage = read_file(MGCaseDecison)
+        MGCaseGenerationMessage = read_file(MGCaseGeneration)
+        MGCaseDecision = makeAPIRequestFreshSystem(MGCaseDecisonMessage, debateInfo)
+        caseInfo = ("The motion reads: " +motion +
+                     " The info slide, if it exists reads: " +
+                       infoSlide  +
+                        "My loose plan for the case are: " +
+                          MGCaseDecision)
+        MGCase = makeAPIRequestFreshSystem(MGCaseGenerationMessage, caseInfo)
+        print(MGCase)
 
     elif speechNeeded == "MO":
         summary = broadSummary()
