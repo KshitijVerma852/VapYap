@@ -19,10 +19,17 @@ speechNumberIndex = 0
 
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
+    useFrontend = True
     print("Start running")
+
     motion = "This House believes that democratic states should grant an amnesty to whistleblowers who expose unethical practices in the government."
     infoSlide = ""
     position = "OG"
+    if useFrontend:
+        if request.method == "POST":
+            motion = request.POST["motion"]
+            infoSlide = request.POST["infoSlide"]
+            position = request.POST["position"]
 
     for speechType in orderOfSpeeches:
         if speechType in positionToOrderOfSpeeches[position]:
@@ -220,7 +227,6 @@ BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
 MGCaseOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
-
 
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
 BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
