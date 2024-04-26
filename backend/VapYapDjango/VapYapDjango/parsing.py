@@ -7,17 +7,28 @@ from .logic import makeAPIRequestFreshSystem
 from .logic import makeAPIRequestFreshSystemTurbo
 from django.views.decorators.csrf import csrf_exempt
 
+positionToOrderOfSpeeches = {
+    "OG": ["PM", "DPM"],
+    "OO": ["LO", "DLO"],
+    "CG": ["MG", "GW"],
+    "CO": ["MO", "OW"]
+}
+orderOfSpeeches = ["PM", "LO", "DPM", "DLO", "MG", "MO", "GW", "OW"]
+speechNumberIndex = 0
+
 
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
     print("Start running")
     motion = "This House believes that democratic states should grant an amnesty to whistleblowers who expose unethical practices in the government."
     infoSlide = ""
-    position = "MG"
-    parse_RawArguments(rawDebateInput, rawDebateOutput)
-    # brainStormArguments(motion, infoSlide, position)
-    # clean_RawArguments(rawDebateOutput, cleanDebateOutput)
-    # answerArguments(cleanDebateOutput, answerDebateOutput)
+    position = "OG"
+
+    for speechType in orderOfSpeeches:
+        if speechType in positionToOrderOfSpeeches[position]:
+            parse_RawArguments(rawDebateInput, rawDebateOutput)
+            clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+            answerArguments(cleanDebateOutput, answerDebateOutput)
 
     summary = broadSummary()
 
@@ -32,7 +43,6 @@ def returnJSONObject(request: HttpRequest):
 
 
 def caseGeneration(motion, infoSlide, position, speechNeeded):
-
     brainStormedIdeas = read_file(BrainStormOutput)
     debateInfo = ("The motion reads: " + motion + " The info slide, if it exists reads: " +
                   infoSlide + "My ideas for the motion are: " + brainStormedIdeas)
@@ -70,7 +80,7 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
     elif speechNeeded == "MG":
         summary = broadSummary()
         debateInfo = debateInfo + \
-            "The summary of the debate so far speech by speech is: " + summary
+                     "The summary of the debate so far speech by speech is: " + summary
         MGCaseDecisonMessage = read_file(MGCaseDecison)
         MGCaseGenerationMessage = read_file(MGCaseGeneration)
         MGCaseDecision = makeAPIRequestFreshSystem(
@@ -210,7 +220,6 @@ BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
 MGCaseOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
-
 
 
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
