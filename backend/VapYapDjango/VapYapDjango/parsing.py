@@ -93,8 +93,7 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
 
 
 def brainStormArguments(motion, infoSlide, position):
-    speechDetails = f"The motion you need to brainstorm reads: {motion} The info slide, if it exists reads: {
-        infoSlide} You are to think of arguments for side :{position}"
+    speechDetails = f"The motion you need to brainstorm reads: {motion} The info slide, if it exists reads: {infoSlide} You are to think of arguments for side :{position}"
     brainStormMessage = read_file(BrainStormMessageFile)
     brainStormedIdeas = makeAPIRequestFreshSystem(
         brainStormMessage, speechDetails)
