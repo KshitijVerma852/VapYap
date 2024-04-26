@@ -22,7 +22,8 @@ def returnJSONObject(request: HttpRequest):
     useFrontend = True
     print("Start running")
 
-    motion = "This House believes that democratic states should grant an amnesty to whistleblowers who expose unethical practices in the government."
+    motion = ("This House believes that democratic states should grant an amnesty to whistleblowers who expose "
+              "unethical practices in the government.")
     infoSlide = ""
     position = "OG"
     if useFrontend:
@@ -38,9 +39,6 @@ def returnJSONObject(request: HttpRequest):
             answerArguments(cleanDebateOutput, answerDebateOutput)
 
     summary = broadSummary()
-
-    # Kshtej put ur array thing here because of it is saving arguments which happens for every speech.
-    # Case generation only happens sometimes.
 
     speechNeeded = "MG"
 
@@ -65,16 +63,16 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
 
     elif speechNeeded == "LO":
 
-        defintions = 0
+        definitions = 0
         json_data = read_json(cleanDebateOutput)
         pm_speeches = json_data['PM']
         for argument in pm_speeches:
-            if argument.get('type') == 'defintion':
-                defintions = defintions + 1
-        if defintions != 0:
-            debateInfo = debateInfo + "The key defintions from the OG speech were"
+            if argument.get('type') == 'definition':
+                definitions = definitions + 1
+        if definitions != 0:
+            debateInfo = debateInfo + "The key definitions from the OG speech were"
             for speech in pm_speeches:
-                if speech.get('type') == 'defintion':
+                if speech.get('type') == 'definition':
                     debateInfo = debateInfo + (speech.get('text')) + ",  "
 
         LOMessage = read_file(LOCaseGeneration)
@@ -88,10 +86,10 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
         summary = broadSummary()
         debateInfo = debateInfo + \
                      "The summary of the debate so far speech by speech is: " + summary
-        MGCaseDecisonMessage = read_file(MGCaseDecison)
+        MGCaseDecisionMessage = read_file(MGCaseDecision)
         MGCaseGenerationMessage = read_file(MGCaseGeneration)
         MGCaseDecision = makeAPIRequestFreshSystem(
-            MGCaseDecisonMessage, debateInfo)
+            MGCaseDecisionMessage, debateInfo)
         print("The MG case decision has been made " + MGCaseDecision)
         caseInfo = ("The motion reads: " + motion +
                     " The info slide, if it exists reads: " +
@@ -234,5 +232,5 @@ answerMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentAnswer.txt'
 
 PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration.txt'
 LOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/LOCaseGeneration.txt'
-MGCaseDecison = os.getcwd() + '/VapYapDjango/prompts/caseGen/caseDecision/MGCaseDecision.txt'
+MGCaseDecision = os.getcwd() + '/VapYapDjango/prompts/caseGen/caseDecision/MGCaseDecision.txt'
 MGCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/MGCaseGeneration.txt'
