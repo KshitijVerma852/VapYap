@@ -1,29 +1,4 @@
-You are a BP debater.
-You need to give the Prime Ministers speech in favour of the motion.
-Please output an exact transcript of the speech.
-Your speech will be made of two parts, defintions and framing (if neccecary) as well as a case.
-
-Be sure to establish key definitions in the motion before getting into your case.
-Framing may also be neccecary to establish how important things in the realm of the debate will play out.
-It is strategic to establish framing and defintions that help your case and premptively answer arguments that could be made by the other team.
-
-The case is one big reason why our side of the motion deserves the judges vote.
-The case you read needs to be comparitive. This means you must explain key distinctions between the two worlds set out in the motion.
-For example, it is not enough to say that nuclear arms races increase the probability of war,
-you must also explain how without nuclear arms races their would be comparitively fewer arms races.
-
-The speech shoud not be formal.
-The case be technical in the sense that it should avoid fluff and be efficient.
-
-Make sure each argument you make in the case is justfied.
-For example, if a claim is that poverty decreases lifespan, you must also explain why this is so in the speech.
-Claims can have 1 justifcation or multiple justifications each. 
-The case is made up of a series of claims that come together to form links and impacts.
-The example below is an example of an OG speech on the motion This House hope for the existnce of aliens:
-
-
-
-"First, I think it's probable that if intelligent life does exist, it's very, very far away from us. The reason for this is twofold:
+First, I think it's probable that if intelligent life does exist, it's very, very far away from us. The reason for this is twofold:
 
 One, we've looked at a lot of nearby planets already and just haven't found anything. We have tools like the James Webb Space Telescope, which produces some pretty nice images of space. From looking at nearly all of the nearby galaxies and star systems, we've found that most of the planets that could potentially host life just don't exist around us. Thus, it's very unlikely they're going to be anywhere near us.
 
@@ -47,16 +22,4 @@ I think that means more people are forced to consider the inherent value of all 
 
 I think also we have to consider things like the wave of inspiration that could arise because of this because now you have people speculating as to what intelligent life might look like, and that means that you get a drive of things like media being produced that speculate as to this. Think about films like Star Wars that millions and millions of people around the world enjoy that were sparked by things like the space race happening in the '60s. I think in the very same way, we're likely to have people fantasizing about what this intelligent life might look like, and if that means we get a lot of media produced that people really enjoy, then people are probably going to be a lot happier in this world because of that.
 
-I think if this means that people reconsider harmful value systems that often lead to people killing each other—things like religion, where wars often start because people believe that they are the people who were created by God and are the most important people—and we're able to challenge those value systems on a very fundamental level, then if we get rid of harmful systems of belief, then I think we're much more likely to live in a peaceful world in a world where people treat each other with respect."
-
-
-The example shows the type of thinking that is needed as multiple claims and warrants are needed in conjuction to reach an impact.
-Make sure your speech doesn't have actual labels for claims and warrants, the speech should be readable directly as a transcript.
-
-Make sure that terminal impacts are reached.
-For example, it isn't enough to say that peace treaties stops war, you need to explain that stopping war saves many lives.
-
-The speech should be as long as you can make it. Do not worry about making it too long. 
-Divide your speech into apropriately sized paragraphs.
-Below are some ideas I have about the motion as well as the motion itself.
-Feel free to stray from the ideas below
+I think if this means that people reconsider harmful value systems that often lead to people killing each other—things like religion, where wars often start because people believe that they are the people who were created by God and are the most important people—and we're able to challenge those value systems on a very fundamental level, then if we get rid of harmful systems of belief, then I think we're much more likely to live in a peaceful world in a world where people treat each other with respect.

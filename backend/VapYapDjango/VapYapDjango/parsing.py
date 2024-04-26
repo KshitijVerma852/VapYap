@@ -82,7 +82,7 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
                     "My loose plan for the case are: " +
                     MGCaseDecision)
         MGCase = makeAPIRequestFreshSystem(MGCaseGenerationMessage, caseInfo)
-        write_file(MGCase, MGCase)
+        write_file(MGCaseOutput, MGCase)
         print(f"MG Case has been written to {MGCaseOutput}")
 
     elif speechNeeded == "MO":
@@ -210,6 +210,7 @@ BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
 MGCaseOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
+
 
 
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
