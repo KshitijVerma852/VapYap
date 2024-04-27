@@ -19,7 +19,7 @@ speechNumberIndex = 0
 
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
-    useFrontend = True
+    useFrontend = False
     useSetupPageData = True
     print("Start running")
 
@@ -46,12 +46,10 @@ def returnJSONObject(request: HttpRequest):
     #         parse_RawArguments(rawDebateInput, rawDebateOutput)
     #         clean_RawArguments(rawDebateOutput, cleanDebateOutput)
     #         answerArguments(cleanDebateOutput, answerDebateOutput)
-    #
-    # summary = broadSummary()
-    #
-    # speechNeeded = "MG"
-    #
-    # caseGeneration(motion, infoSlide, position, speechNeeded)
+        
+    speechNeeded = "MO"
+    
+    caseGeneration(motion, infoSlide, position, speechNeeded)
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
@@ -90,23 +88,27 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
 
         print(f"LO Case has been written to {LOOutput}")
 
-    elif speechNeeded == "MG":
-
+    elif speechNeeded in ("MG", "MO"):
+        welcomeInfo = "You are a British Parli debater on the team of {speechNeeded}"
         summaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
         
-        MGCaseDecisionMessage = read_file(MGCaseDecision)
-        MGCaseGenerationMessage = read_file(MGCaseGeneration)
+        MGMOCaseDecisionMessage = read_file(MGMOCaseDecision)
+        MGMOCaseGenerationMessage = read_file(MGMOCaseGeneration)
         
-        MGCaseDecisionOutput = makeAPIRequestFreshSystem(MGCaseDecisionMessage, debateInfo, brainStormedIdeasInfo, summaryInfo)
-        print("The MG case decision has been made")
+        MGMOCaseDecisionOutput = makeAPIRequestFreshSystem(welcomeInfo, MGMOCaseDecisionMessage, debateInfo, brainStormedIdeasInfo, summaryInfo)
+        
+        print("The MG/MO case decision has been made")
 
         
-        MGCase = makeAPIRequestFreshSystem(MGCaseGenerationMessage, debateInfo, MGCaseDecisionOutput ,summaryInfo)
-        write_file(MGCaseOutput, MGCase)
-        print(f"MG Case has been written to {MGCaseOutput}")
+        MGMOCase = makeAPIRequestFreshSystem(MGMOCaseGenerationMessage, debateInfo, MGMOCaseDecisionOutput ,summaryInfo)
+        if speechNeeded == "MG":
+            write_file(MGCaseOutput, MGMOCase)
+            print(f"MG Case has been written to {MGCaseOutput}")
 
-    elif speechNeeded == "MO":
-        summary = broadSummary()
+        if speechNeeded == "MO":
+            write_file(MOCaseOutput, MGMOCase)
+            print(f"MG Case has been written to {MOCaseOutput}")
+
 
     else:
         print("Invalid speech type")
@@ -230,6 +232,8 @@ BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
 MGCaseOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
+MOCaseOutput = os.getcwd() + '/VapYapDjango/content/MOCase.txt'
+
 
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
 BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
@@ -237,5 +241,5 @@ answerMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentAnswer.txt'
 
 PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration.txt'
 LOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/LOCaseGeneration.txt'
-MGCaseDecision = os.getcwd() + '/VapYapDjango/prompts/caseGen/caseDecision/MGCaseDecision.txt'
-MGCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/MGCaseGeneration.txt'
+MGMOCaseDecision = os.getcwd() + '/VapYapDjango/prompts/caseGen/caseDecision/MGMOCaseDecision.txt'
+MGMOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/MGMOCaseGeneration.txt'
