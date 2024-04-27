@@ -46,20 +46,24 @@ def returnJSONObject(request: HttpRequest):
     #         parse_RawArguments(rawDebateInput, rawDebateOutput)
     #         clean_RawArguments(rawDebateOutput, cleanDebateOutput)
     #         answerArguments(cleanDebateOutput, answerDebateOutput)
-        
+    
+    if infoSlide == None:
+        debateInfo = ("The motion reads: " + motion)
+    else:
+        debateInfo = ("The motion reads: " + motion + " The info slide, reads: " + infoSlide)
+    debateInfo = debateInfo + " You are to think of arguments for side : " + position
+
     speechNeeded = "MO"
     
-    caseGeneration(motion, infoSlide, position, speechNeeded)
+    caseGeneration(debateInfo, speechNeeded)
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
 
-def caseGeneration(motion, infoSlide, position, speechNeeded):
+def caseGeneration(debateInfo, speechNeeded):
     brainStormedIdeas = read_file(BrainStormOutput)
     
     brainStormedIdeasInfo = ("My ideas for the motion are: " + brainStormedIdeas)
-    debateInfo = ("The motion reads: " + motion + " The info slide, if it exists reads: " +
-                  infoSlide)
 
     if speechNeeded == "PM":
 
@@ -100,7 +104,7 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
         print("The MG/MO case decision has been made")
 
         
-        MGMOCase = makeAPIRequestFreshSystem(MGMOCaseGenerationMessage, debateInfo, MGMOCaseDecisionOutput ,summaryInfo)
+        MGMOCase = makeAPIRequestFreshSystem(welcomeInfo, MGMOCaseGenerationMessage, debateInfo, MGMOCaseDecisionOutput ,summaryInfo)
         if speechNeeded == "MG":
             write_file(MGCaseOutput, MGMOCase)
             print(f"MG Case has been written to {MGCaseOutput}")
@@ -153,14 +157,14 @@ def clean_RawArguments(input_filename, output_filename):
 def answerArguments(input_filename, output_filename):
     data = read_json(input_filename)
     answerMessage = read_file(answerMessageFile)
-    clean_data = {}
+    answered_data = {}
     for speech_type, arguments in data.items():
-        clean_data[speech_type] = [{
+        answered_data[speech_type] = [{
             'text': makeAPIRequestFreshSystemTurbo(answerMessage, arg['text']),
             'strength': arg['strength']
         } for arg in arguments]
 
-    write_json(output_filename, clean_data)
+    write_json(output_filename, answered_data)
 
     print(f"Answered data has been written to {output_filename}")
 
