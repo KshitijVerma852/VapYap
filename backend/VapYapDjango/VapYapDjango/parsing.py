@@ -114,24 +114,30 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
         print("Invalid speech type")
 
 
-def brainStormArguments(motion, infoSlide, position):
-    speechDetails = f"The motion you need to brainstorm reads: {motion} The info slide, if it exists reads: {infoSlide} You are to think of arguments for side :{position}"
+def brainStormArguments(debateInfo):
     brainStormMessage = read_file(BrainStormMessageFile)
     brainStormedIdeas = makeAPIRequestFreshSystem(
-        brainStormMessage, speechDetails)
+        brainStormMessage, debateInfo)
     write_file(BrainStormOutput, brainStormedIdeas)
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
 
 
-def brainStormBroadAnswers():
+def brainStormBroadAnswers(debateInfo, position):
+    welcomeInfo = "You are a British Parli debater on the team of{position}. "
+    summaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
+    broadAnswers = read_file(answerBroadMessageFile)
+    broadAnswers = makeAPIRequestFreshSystem(
+        welcomeInfo, debateInfo, broadAnswers ,summaryInfo)
+    write_file(answerBroadDebateOutput, broadAnswers)
+    print("Broad answers have been written to {answerBroadDebateOutput}")
     return
 
 
-def brainStormInteractions():
-    return
-
-
-def evalValue():
+def evalValueOfAnswers():
+    welcomeInfo = "You are a British Parli debater on the team of {position}"
+    broadSummaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
+    broadAnswers = read_file(answerBroadDebateOutput)
+    
     return
 
 
@@ -226,17 +232,28 @@ def write_json(filepath, data):
 rawDebateInput = os.getcwd() + '/VapYapDjango/content/speech.txt'
 rawDebateOutput = os.getcwd() + '/VapYapDjango/content/RawTracking.json'
 cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/CleanTracking.json'
+
 answerDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerTracking.json'
+answerBroadDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerBroadOutput.txt'
 BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
+
 
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
 MGCaseOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
 MOCaseOutput = os.getcwd() + '/VapYapDjango/content/MOCase.txt'
 
+<<<<<<< Updated upstream
+=======
+
+
+
+
+>>>>>>> Stashed changes
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
 BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
 answerMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentAnswer.txt'
+answerBroadMessageFile = os.getcwd() + '/VapYapDjango/prompts/answerBroad.txt'
 
 PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration.txt'
 LOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/LOCaseGeneration.txt'
