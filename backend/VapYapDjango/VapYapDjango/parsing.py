@@ -1,5 +1,6 @@
 import json
 import os
+import threading
 from django.http import JsonResponse, HttpRequest
 from .length import adjustLength
 from .summarize import broadSummary
@@ -44,17 +45,18 @@ def returnJSONObject(request: HttpRequest):
 
     if useFrontend:
         motion, infoSlide, position = initializeFormData(request)
-        brainStormedIdeas = read_file(BrainStormOutput)
         
         if infoSlide is None:
             debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. You are set to represent the {position} position."
         else:
             debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. The info slide reads: {infoSlide}. You are set to represent the {position} position."
 
+        brainStormedIdeas = brainStormArguments(debateWelcomeInfo)
+
+
         for speechType in orderOfSpeeches:
             if speechType in positionToOrderOfSpeeches[position]:
-                # TODO: Graham - Generate speech
-                caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechType)  # Make this speech generation in the future
+                makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
             else:
                 title, content = fetchNextSpeechFromFrontend(request)
                 with open(f"content/input/{title.upper()}.txt", "w") as speechFile:
@@ -67,6 +69,17 @@ def returnJSONObject(request: HttpRequest):
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
+def makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
+
+    if speechNeeded in ("OG", "LO", "MG", "MO"):
+        caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded)
+        if speechNeeded in ("OG", "LO"):
+            return
+        else:
+
+    elif speechNeeded in ("GW", "OW", "DPM", "DLO"):
+        print("HGi")
+    return
 
 def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
