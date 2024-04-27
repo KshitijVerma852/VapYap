@@ -19,7 +19,7 @@ speechNumberIndex = 0
 
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
-    useFrontend = False
+    useFrontend = True
     useSetupPageData = True
     print("Start running")
 
@@ -27,18 +27,18 @@ def returnJSONObject(request: HttpRequest):
               "unethical practices in the government.")
     infoSlide = ""
     position = "OG"
+    content = ""
+    title = ""
     if useFrontend:
         if request.method == "POST":
-            if useSetupPageData:
-                motion = request.POST["motion"]
-                infoSlide = request.POST["infoSlide"]
-                position = request.POST["position"]
-                useSetupPageData = False
-                print(motion, infoSlide, position)
+            data = json.loads(request.body)
+            if "title" in data and "content" in data:
+                title = data.get("title")
+                content = data.get("content")
             else:
-                title = request.POST["title"]
-                content = request.POST["content"]
-                print(title, content)
+                motion = data.get("motion")
+                infoSlide = data.get("infoSlide")
+                position = data.get("position")
 
     # for speechType in orderOfSpeeches:
     #     if speechType in positionToOrderOfSpeeches[position]:
@@ -46,24 +46,20 @@ def returnJSONObject(request: HttpRequest):
     #         parse_RawArguments(rawDebateInput, rawDebateOutput)
     #         clean_RawArguments(rawDebateOutput, cleanDebateOutput)
     #         answerArguments(cleanDebateOutput, answerDebateOutput)
-    
-    if infoSlide == None:
-        debateInfo = ("The motion reads: " + motion)
-    else:
-        debateInfo = ("The motion reads: " + motion + " The info slide, reads: " + infoSlide)
-    debateInfo = debateInfo + " You are to think of arguments for side : " + position
 
     speechNeeded = "MO"
-    
-    caseGeneration(debateInfo, speechNeeded)
+
+    # caseGeneration(motion, infoSlide, position, speechNeeded)
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
 
-def caseGeneration(debateInfo, speechNeeded):
+def caseGeneration(motion, infoSlide, position, speechNeeded):
     brainStormedIdeas = read_file(BrainStormOutput)
-    
+
     brainStormedIdeasInfo = ("My ideas for the motion are: " + brainStormedIdeas)
+    debateInfo = ("The motion reads: " + motion + " The info slide, if it exists reads: " +
+                  infoSlide)
 
     if speechNeeded == "PM":
 
@@ -82,11 +78,11 @@ def caseGeneration(debateInfo, speechNeeded):
         definitions = [speech['text'] for speech in pm_speeches if speech.get('type') == 'definition']
 
         if definitions:
-                defintionsInfo = "The key definitions from the OG speech were: " + ", ".join(definitions)
-                LO = makeAPIRequestFreshSystem(LOMessage, debateInfo, brainStormedIdeasInfo + defintionsInfo)
+            defintionsInfo = "The key definitions from the OG speech were: " + ", ".join(definitions)
+            LO = makeAPIRequestFreshSystem(LOMessage, debateInfo, brainStormedIdeasInfo + defintionsInfo)
         else:
-                LO = makeAPIRequestFreshSystem(LOMessage, debateInfo, brainStormedIdeasInfo)
-        
+            LO = makeAPIRequestFreshSystem(LOMessage, debateInfo, brainStormedIdeasInfo)
+
         lengthAdjustedLO = adjustLength(LO)
         write_file(LOOutput, lengthAdjustedLO)
 
@@ -95,16 +91,16 @@ def caseGeneration(debateInfo, speechNeeded):
     elif speechNeeded in ("MG", "MO"):
         welcomeInfo = "You are a British Parli debater on the team of {speechNeeded}"
         summaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
-        
+
         MGMOCaseDecisionMessage = read_file(MGMOCaseDecision)
         MGMOCaseGenerationMessage = read_file(MGMOCaseGeneration)
-        
-        MGMOCaseDecisionOutput = makeAPIRequestFreshSystem(welcomeInfo, MGMOCaseDecisionMessage, debateInfo, brainStormedIdeasInfo, summaryInfo)
-        
+
+        MGMOCaseDecisionOutput = makeAPIRequestFreshSystem(welcomeInfo, MGMOCaseDecisionMessage, debateInfo,
+                                                           brainStormedIdeasInfo, summaryInfo)
+
         print("The MG/MO case decision has been made")
 
-        
-        MGMOCase = makeAPIRequestFreshSystem(welcomeInfo, MGMOCaseGenerationMessage, debateInfo, MGMOCaseDecisionOutput ,summaryInfo)
+        MGMOCase = makeAPIRequestFreshSystem(MGMOCaseGenerationMessage, debateInfo, MGMOCaseDecisionOutput, summaryInfo)
         if speechNeeded == "MG":
             write_file(MGCaseOutput, MGMOCase)
             print(f"MG Case has been written to {MGCaseOutput}")
@@ -157,14 +153,14 @@ def clean_RawArguments(input_filename, output_filename):
 def answerArguments(input_filename, output_filename):
     data = read_json(input_filename)
     answerMessage = read_file(answerMessageFile)
-    answered_data = {}
+    clean_data = {}
     for speech_type, arguments in data.items():
-        answered_data[speech_type] = [{
+        clean_data[speech_type] = [{
             'text': makeAPIRequestFreshSystemTurbo(answerMessage, arg['text']),
             'strength': arg['strength']
         } for arg in arguments]
 
-    write_json(output_filename, answered_data)
+    write_json(output_filename, clean_data)
 
     print(f"Answered data has been written to {output_filename}")
 
@@ -237,7 +233,6 @@ PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
 MGCaseOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
 MOCaseOutput = os.getcwd() + '/VapYapDjango/content/MOCase.txt'
-
 
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
 BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
