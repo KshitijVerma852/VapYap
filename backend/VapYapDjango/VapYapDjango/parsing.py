@@ -78,14 +78,23 @@ def makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
         if speechNeeded in ("OG", "LO"):
             return
         else:
-            # Add an indented block of code here
-            pass
+            brainStormBroadAnswers(debateWelcomeInfo, speechNeeded)
+            if speechNeeded == "MG":
+                read_file(MGCaseOutput)
+                finalSpeech = formalize(debateWelcomeInfo, read_file(MGCaseOutput)+ " " + read_file(answerBroadDebateOutput))
+                write_file(MGSpeechOutput, finalSpeech)
+            if speechNeeded == "MO":
+                read_file(MOCaseOutput)
+                finalSpeech = formalize(debateWelcomeInfo, read_file(MOCaseOutput)+ " " + read_file(answerBroadDebateOutput))
+                write_file(MOSpeechOutput, finalSpeech)
 
     elif speechNeeded in ("GW", "OW", "DPM", "DLO"):
         print("HGi")
     
-
-
+def formalize(debateWelcomeInfo, content):
+    adjustedContent = adjustLength(content)
+    finalSpeech = makeAPIRequestFreshSystemTurbo(debateWelcomeInfo, "This speech is almost ready to ouput. Make sure that everything looks ok. The speech should be ready for me to read verbatim, so make sure that there is no refrences to what I was thinking when I decided to make these arguments. Intead, focus on making the arguments themselves in the debate" ,adjustedContent)
+    return finalSpeech
 def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
     if speechNeeded == "PM":
@@ -281,8 +290,13 @@ frontlineOutputFile = os.getcwd() + '/VapYapDjango/content/frontlineOutput.txt'
 
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
+
 MGCaseOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
+MGSpeechOutput = os.getcwd() + '/VapYapDjango/content/MGSpeech.txt'
+
 MOCaseOutput = os.getcwd() + '/VapYapDjango/content/MOCase.txt'
+MOSpeechOutput = os.getcwd() + '/VapYapDjango/content/MOSpeech.txt'
+
 
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
 BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
