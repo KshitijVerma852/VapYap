@@ -114,10 +114,12 @@ def formalize(debateWelcomeInfo, content):
     return finalSpeech
 def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
+    AlienExample = ("Here is the example case. This is from a debate with the motion This house hopes for the existence of aliens. This is the OG Speech from that debate" + read_file(AlienExample))
+
     if speechNeeded == "PM":
 
         PMMessage = read_file(PMCaseGeneration)
-        PM = makeAPIRequestFreshSystem(debateWelcomeInfo, PMMessage, brainStormedIdeas)
+        PM = makeAPIRequestFreshSystem(debateWelcomeInfo, PMMessage, AlienExample ,brainStormedIdeas)
 
         write_file(PMOutput, PM)
 
@@ -132,9 +134,9 @@ def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
         if definitions:
             defintionsInfo = "The key definitions from the OG speech were: " + ", ".join(definitions)
-            LO = makeAPIRequestFreshSystem(debateWelcomeInfo, LOMessage, brainStormedIdeas + defintionsInfo)
+            LO = makeAPIRequestFreshSystem(debateWelcomeInfo, LOMessage, AlienExample,brainStormedIdeas + defintionsInfo)
         else:
-            LO = makeAPIRequestFreshSystem(debateWelcomeInfo, LOMessage , brainStormedIdeas)
+            LO = makeAPIRequestFreshSystem(debateWelcomeInfo, LOMessage , AlienExample, brainStormedIdeas)
         write_file(LOOutput, LO)
 
         print(f"LO Case has been written to {LOOutput}")
@@ -171,7 +173,6 @@ def brainStormArguments(debateInfo):
     write_file(BrainStormOutput, brainStormedIdeas)
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
 
-
 def brainStormBroadAnswers(debateWelcomeInfo, position):
     
     summaryOpponentsInfo = "The summary of the opponents cases so far is: " + broadSummaryOpponents(position)
@@ -202,7 +203,6 @@ def evalValueOfAnswers():
     broadAnswers = read_file(answerBroadDebateOutput)
 
     return
-
 
 def answerArguments(input_filename, output_filename):
     data = read_json(input_filename)
@@ -313,3 +313,4 @@ PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration
 LOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/LOCaseGeneration.txt'
 MGMOCaseDecision = os.getcwd() + '/VapYapDjango/prompts/caseGen/caseDecision/MGMOCaseDecision.txt'
 MGMOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/MGMOCaseGeneration.txt'
+AlienExample = os.getcwd() + '/VapYapDjango/content/AlienExample.txt'
