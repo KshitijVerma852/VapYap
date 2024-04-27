@@ -32,7 +32,7 @@ def fetchNextSpeechFromFrontend(request: HttpRequest):
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
     useFrontend = True
-    useSetupPageData = True
+
     print("Start running")
 
     motion = ("This House believes that democratic states should grant an amnesty to whistleblowers who expose "
@@ -41,23 +41,11 @@ def returnJSONObject(request: HttpRequest):
     position = "OG"
     content = ""
     title = ""
-    # if useFrontend:
-    #     if request.method == "POST":
-    #         data = json.loads(request.body)
-    #         if "title" in data and "content" in data:
-    #             title = data.get("title")
-    #             content = data.get("content")
-    #             with open(f"content/input/{title.upper()}.txt", "w") as speechFile:
-    #                 speechFile.write(title)
-    #                 speechFile.write(content)
-    #         else:
-    #             motion = data.get("motion")
-    #             infoSlide = data.get("infoSlide")
-    #             position = data.get("position")
 
     if useFrontend:
         motion, infoSlide, position = initializeFormData(request)
-
+        brainStormedIdeas = read_file(BrainStormOutput)
+        
         if infoSlide is None:
             debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. You are set to represent the {position} position."
         else:
@@ -66,8 +54,7 @@ def returnJSONObject(request: HttpRequest):
         for speechType in orderOfSpeeches:
             if speechType in positionToOrderOfSpeeches[position]:
                 # TODO: Graham - Generate speech
-
-                caseGeneration(motion, infoSlide, position, speechType)  # Make this speech generation in the future
+                caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechType)  # Make this speech generation in the future
             else:
                 title, content = fetchNextSpeechFromFrontend(request)
                 with open(f"content/input/{title.upper()}.txt", "w") as speechFile:
@@ -81,17 +68,13 @@ def returnJSONObject(request: HttpRequest):
     return JsonResponse({"ai_response": "dfdai_response"})
 
 
-def caseGeneration(motion, infoSlide, position, speechNeeded):
-    brainStormedIdeas = read_file(BrainStormOutput)
-
-    brainStormedIdeasInfo = ("My ideas for the motion are: " + brainStormedIdeas)
-    debateInfo = ("The motion reads: " + motion + " The info slide, if it exists reads: " +
-                  infoSlide)
+def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
     if speechNeeded == "PM":
 
         PMMessage = read_file(PMCaseGeneration)
-        PM = makeAPIRequestFreshSystem(PMMessage, debateInfo, brainStormedIdeasInfo)
+        PM = makeAPIRequestFreshSystem(debateWelcomeInfo, PMMessage, brainStormedIdeas)
+        
         lengthAdjustedPM = adjustLength(PM)
         write_file(PMOutput, lengthAdjustedPM)
 
@@ -106,9 +89,9 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
 
         if definitions:
             defintionsInfo = "The key definitions from the OG speech were: " + ", ".join(definitions)
-            LO = makeAPIRequestFreshSystem(LOMessage, debateInfo, brainStormedIdeasInfo + defintionsInfo)
+            LO = makeAPIRequestFreshSystem(debateWelcomeInfo, LOMessage, brainStormedIdeas + defintionsInfo)
         else:
-            LO = makeAPIRequestFreshSystem(LOMessage, debateInfo, brainStormedIdeasInfo)
+            LO = makeAPIRequestFreshSystem(debateWelcomeInfo, LOMessage , brainStormedIdeas)
 
         lengthAdjustedLO = adjustLength(LO)
         write_file(LOOutput, lengthAdjustedLO)
@@ -116,25 +99,24 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
         print(f"LO Case has been written to {LOOutput}")
 
     elif speechNeeded in ("MG", "MO"):
-        welcomeInfo = "You are a British Parli debater on the team of {speechNeeded}"
+        speechSpecifcInfo = "You are on the team of {speechNeeded}"
         summaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
 
         MGMOCaseDecisionMessage = read_file(MGMOCaseDecision)
         MGMOCaseGenerationMessage = read_file(MGMOCaseGeneration)
 
-        MGMOCaseDecisionOutput = makeAPIRequestFreshSystem(welcomeInfo, MGMOCaseDecisionMessage, debateInfo,
-                                                           brainStormedIdeasInfo, summaryInfo)
+        MGMOCaseDecisionOutput = makeAPIRequestFreshSystem(debateWelcomeInfo, speechSpecifcInfo , MGMOCaseDecisionMessage, summaryInfo)
 
         print("The MG/MO case decision has been made")
 
-        MGMOCase = makeAPIRequestFreshSystem(MGMOCaseGenerationMessage, debateInfo, MGMOCaseDecisionOutput, summaryInfo)
+        MGMOCase = makeAPIRequestFreshSystem(debateWelcomeInfo,speechSpecifcInfo ,MGMOCaseGenerationMessage, MGMOCaseDecisionOutput, summaryInfo)
         if speechNeeded == "MG":
             write_file(MGCaseOutput, MGMOCase)
             print(f"MG Case has been written to {MGCaseOutput}")
 
         if speechNeeded == "MO":
             write_file(MOCaseOutput, MGMOCase)
-            print(f"MG Case has been written to {MOCaseOutput}")
+            print(f"MO Case has been written to {MOCaseOutput}")
 
 
     else:
@@ -149,12 +131,12 @@ def brainStormArguments(debateInfo):
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
 
 
-def brainStormBroadAnswers(debateInfo, position):
-    welcomeInfo = "You are a British Parli debater on the team of{position}. "
+def brainStormBroadAnswers(debateWelcomeInfo):
+    
     summaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
-    broadAnswers = read_file(answerBroadMessageFile)
+    broadAnswersMessage = read_file(answerBroadMessageFile)
     broadAnswers = makeAPIRequestFreshSystem(
-        welcomeInfo, debateInfo, broadAnswers, summaryInfo)
+        debateWelcomeInfo, broadAnswersMessage, summaryInfo)
     write_file(answerBroadDebateOutput, broadAnswers)
     print("Broad answers have been written to {answerBroadDebateOutput}")
     return
