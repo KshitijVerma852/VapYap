@@ -35,7 +35,7 @@ def returnJSONObject(request: HttpRequest):
             if "title" in data and "content" in data:
                 title = data.get("title")
                 content = data.get("content")
-                with open(f"content/input/{title.upper()}Speech.txt", "w") as speechFile:
+                with open(f"content/input/{title.upper()}.txt", "w") as speechFile:
                     speechFile.write(title)
                     speechFile.write(content)
             else:
@@ -45,7 +45,7 @@ def returnJSONObject(request: HttpRequest):
 
     for speechType in orderOfSpeeches:
         if speechType in positionToOrderOfSpeeches[position]:
-            parse_RawArguments(rawDebateInput+speechType, rawDebateOutput)
+            parse_RawArguments(rawDebateInput+speechType+"Speech", rawDebateOutput)
             clean_RawArguments(rawDebateOutput, cleanDebateOutput)
             answerArguments(cleanDebateOutput, answerDebateOutput)
             caseGeneration(motion, infoSlide, position, speechType)
