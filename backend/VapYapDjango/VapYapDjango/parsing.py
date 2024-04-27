@@ -45,14 +45,10 @@ def returnJSONObject(request: HttpRequest):
 
     for speechType in orderOfSpeeches:
         if speechType in positionToOrderOfSpeeches[position]:
-            soeechNeeded = speechType
-            parse_RawArguments(rawDebateInput, rawDebateOutput)
+            parse_RawArguments(rawDebateInput+speechType, rawDebateOutput)
             clean_RawArguments(rawDebateOutput, cleanDebateOutput)
             answerArguments(cleanDebateOutput, answerDebateOutput)
-
-    speechNeeded = "MO"
-
-    caseGeneration(motion, infoSlide, position, speechNeeded)
+            caseGeneration(motion, infoSlide, position, speechType)
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
@@ -232,11 +228,11 @@ def write_json(filepath, data):
         json.dump(data, file, indent=4)
 
 
-rawDebateInput = os.getcwd() + '/VapYapDjango/content/speech.txt'
-rawDebateOutput = os.getcwd() + '/VapYapDjango/content/RawTracking.json'
-cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/CleanTracking.json'
+rawDebateInput = os.getcwd() + '/VapYapDjango/content/input/'
+rawDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/RawTracking.json'
+cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/CleanTracking.json'
+answerDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/AnswerTracking.json'
 
-answerDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerTracking.json'
 answerBroadDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerBroadOutput.txt'
 BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
 
