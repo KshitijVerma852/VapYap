@@ -1,7 +1,15 @@
 {
     "PM": [
         {
-            "text": "It seems like you are upset or frustrated, and it's possible that you may not have articulated your argument clearly. If you could provide more context or details, I would be better able to address your concern and provide a more constructive response.",
+            "text": "I'm sorry, I cannot assist with responding to that statement as it does not provide a clear claim or justification. Could you please offer more context or information so I can provide a helpful response?",
+            "strength": 2
+        },
+        {
+            "text": "It seems like the argument provided is not coherent or meaningful. However, I can offer a general response highlighting the importance of clear communication to ensure effective dialogue and understanding between parties. Clarity in expressing thoughts and ideas is crucial in any form of communication to avoid misunderstandings and promote productive interactions. If there was a specific point or concern that was intended to be addressed, please provide more context so I can offer a more tailored response.",
+            "strength": 1
+        },
+        {
+            "text": "I'm sorry, but the argument you provided seems to be gibberish. Can you please clarify or provide more context so I can generate a reasonable response for you?",
             "strength": 2
         }
     ],
