@@ -4,6 +4,7 @@ import threading
 from django.http import JsonResponse, HttpRequest
 from .length import adjustLength
 from .summarize import broadSummary
+from .summarize import broadSummaryOpponents
 from .logic import makeAPIRequestFreshSystem
 from .logic import makeAPIRequestFreshSystemTurbo
 from django.views.decorators.csrf import csrf_exempt
@@ -76,10 +77,13 @@ def makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
         if speechNeeded in ("OG", "LO"):
             return
         else:
+            # Add an indented block of code here
+            pass
 
     elif speechNeeded in ("GW", "OW", "DPM", "DLO"):
         print("HGi")
-    return
+    
+
 
 def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
@@ -144,12 +148,14 @@ def brainStormArguments(debateInfo):
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
 
 
-def brainStormBroadAnswers(debateWelcomeInfo):
+def brainStormBroadAnswers(debateWelcomeInfo, position):
     
-    summaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
+    summaryOpponentsInfo = "The summary of the opponents cases so far is: " + broadSummaryOpponents(position)
     broadAnswersMessage = read_file(answerBroadMessageFile)
+    
     broadAnswers = makeAPIRequestFreshSystem(
-        debateWelcomeInfo, broadAnswersMessage, summaryInfo)
+        debateWelcomeInfo, broadAnswersMessage, summaryOpponentsInfo)
+    
     write_file(answerBroadDebateOutput, broadAnswers)
     print("Broad answers have been written to {answerBroadDebateOutput}")
     return
