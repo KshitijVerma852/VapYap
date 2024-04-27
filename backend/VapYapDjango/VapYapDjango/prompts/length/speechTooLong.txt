@@ -1,5 +1,0 @@
-I have a speech that is too long.
-Next I will send you a paragraph of the speech that I want you to shorten.
-Please shorten it by removing fluff and unimportant parts.
-Preserve as much of the origional arguments as possible.
-Please output the new shortened paragraph.

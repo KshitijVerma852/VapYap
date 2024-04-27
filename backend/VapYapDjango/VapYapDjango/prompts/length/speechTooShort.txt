@@ -1,6 +1,0 @@
-I have a speech that is too short.
-Next I will send you a paragraph of the speech that I want you to lengthen.
-Please add to the paragraph by strengthening the arguments within it. 
-Do this by providing new examples or justifications for claims within the paragraph.
-This should strengthen the arguments made in the paragraph while getting it towards the word count.
-Please output the new lengthened paragraph.

@@ -2,7 +2,6 @@ import json
 import os
 import threading
 from django.http import JsonResponse, HttpRequest
-from .length import adjustLength
 from .summarize import broadSummary
 from .summarize import broadSummaryOpponents
 from .summarize import broadSummaryOpponentsAttacks
@@ -111,8 +110,7 @@ def makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
 
 def formalize(debateWelcomeInfo, content):
-    adjustedContent = adjustLength(content)
-    finalSpeech = makeAPIRequestFreshSystemTurbo(debateWelcomeInfo, "This speech is almost ready to ouput. Make sure that everything looks ok. The speech should be ready for me to read verbatim, so make sure that there is no refrences to what I was thinking when I decided to make these arguments. Intead, focus on making the arguments themselves in the debate" ,adjustedContent)
+    finalSpeech = makeAPIRequestFreshSystemTurbo(debateWelcomeInfo, "This speech is almost ready to ouput. Make sure that everything looks ok. The speech should be ready for me to read verbatim, so make sure that there is no refrences to what I was thinking when I decided to make these arguments. Intead, focus on making the arguments themselves in the debate" ,content)
     return finalSpeech
 def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
@@ -120,9 +118,8 @@ def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
         PMMessage = read_file(PMCaseGeneration)
         PM = makeAPIRequestFreshSystem(debateWelcomeInfo, PMMessage, brainStormedIdeas)
-        
-        lengthAdjustedPM = adjustLength(PM)
-        write_file(PMOutput, lengthAdjustedPM)
+
+        write_file(PMOutput, PM)
 
         print(f"PM Case has been written to {PMOutput}")
 
@@ -138,9 +135,7 @@ def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
             LO = makeAPIRequestFreshSystem(debateWelcomeInfo, LOMessage, brainStormedIdeas + defintionsInfo)
         else:
             LO = makeAPIRequestFreshSystem(debateWelcomeInfo, LOMessage , brainStormedIdeas)
-
-        lengthAdjustedLO = adjustLength(LO)
-        write_file(LOOutput, lengthAdjustedLO)
+        write_file(LOOutput, LO)
 
         print(f"LO Case has been written to {LOOutput}")
 
