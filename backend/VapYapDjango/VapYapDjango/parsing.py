@@ -5,6 +5,7 @@ from django.http import JsonResponse, HttpRequest
 from .length import adjustLength
 from .summarize import broadSummary
 from .summarize import broadSummaryOpponents
+from .summarize import broadSummaryOpponentsAttacks
 from .logic import makeAPIRequestFreshSystem
 from .logic import makeAPIRequestFreshSystemTurbo
 from django.views.decorators.csrf import csrf_exempt
@@ -160,6 +161,17 @@ def brainStormBroadAnswers(debateWelcomeInfo, position):
     print("Broad answers have been written to {answerBroadDebateOutput}")
     return
 
+def frontline (debateWelcomeInfo, position): 
+
+    summaryOpponentsInfo = "The opponents have made the following arguments against us  " + broadSummaryOpponentsAttacks(position)
+    frontLineMessage = read_file(frontLineMessage)
+    
+    frontlines = makeAPIRequestFreshSystem(
+        debateWelcomeInfo, frontLineMessage, summaryOpponentsInfo)
+    
+    write_file(frontlineOutputFile, frontlines)
+    print("Broad answers have been written to {frontlineOutputFile}")
+    return
 
 def evalValueOfAnswers():
     welcomeInfo = "You are a British Parli debater on the team of {position}"
@@ -264,6 +276,8 @@ answerDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/AnswerT
 
 answerBroadDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerBroadOutput.txt'
 BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
+frontlineOutputFile = os.getcwd() + '/VapYapDjango/content/frontlineOutput.txt'
+
 
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
@@ -274,6 +288,9 @@ cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
 BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
 answerMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentAnswer.txt'
 answerBroadMessageFile = os.getcwd() + '/VapYapDjango/prompts/answerBroad.txt'
+frontLineMessage = os.getcwd() + '/VapYapDjango/prompts/frontline.txt'
+
+
 
 PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration.txt'
 LOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/LOCaseGeneration.txt'
