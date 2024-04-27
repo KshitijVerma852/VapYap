@@ -18,6 +18,7 @@ orderOfSpeeches = ["PM", "LO", "DPM", "DLO", "MG", "MO", "GW", "OW"]
 
 firstRun = True
 
+
 def initializeFormData(request: HttpRequest):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -29,9 +30,11 @@ def fetchNextSpeechFromFrontend(request: HttpRequest):
         data = json.loads(request.body)
         return data.get("title"), data.get("content")
 
+
 speechNumberIndex = 0
 position = ""
 motion = ""
+
 
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
@@ -41,16 +44,17 @@ def returnJSONObject(request: HttpRequest):
 
     if firstRun:
         motion, infoSlide, position = initializeFormData(request)
-        
+
         if infoSlide is None:
-            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. You are set to represent the {position} position."
+            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {
+                motion}. You are set to represent the {position} position."
         else:
-            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. The info slide reads: {infoSlide}. You are set to represent the {position} position."
+            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {
+                motion}. The info slide reads: {infoSlide}. You are set to represent the {position} position."
 
         brainStormArguments(debateWelcomeInfo)
         brainStormedIdeas = read_file(BrainStormOutput)
         firstRun = False
-
 
     if speechNumberIndex <= len(orderOfSpeeches) - 1:
         print(speechNumberIndex)
@@ -72,9 +76,10 @@ def returnJSONObject(request: HttpRequest):
                 speechFile.write(title)
                 speechFile.write("\n")
                 speechFile.write(content)
-            parse_RawArguments(rawDebateInput + title.upper() + ".txt", cleanDebateOutput)
+            parse_RawArguments(
+                rawDebateInput + title.upper() + ".txt", cleanDebateOutput)
             answerArguments(cleanDebateOutput, answerDebateOutput)
-            
+
             speechNumberIndex += 1
 
     return JsonResponse({"ai_response": "dfdai_response"})
@@ -88,41 +93,53 @@ def makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
             return
         else:
             brainStormBroadAnswers(debateWelcomeInfo, speechNeeded)
+            frontline(debateWelcomeInfo, speechNeeded)
             if speechNeeded == "MG":
                 read_file(MGCaseOutput)
-                finalSpeech = formalize(debateWelcomeInfo, read_file(MGCaseOutput)+ " " + read_file(answerBroadDebateOutput))
+                finalSpeech = formalize(debateWelcomeInfo, read_file(
+                    MGCaseOutput) + " " + read_file(answerBroadDebateOutput))
                 write_file(MGSpeechOutput, finalSpeech)
             if speechNeeded == "MO":
+                frontline(debateWelcomeInfo, "MO")
                 read_file(MOCaseOutput)
-                finalSpeech = formalize(debateWelcomeInfo, read_file(MOCaseOutput)+ " " + read_file(answerBroadDebateOutput))
+                finalSpeech = formalize(debateWelcomeInfo, read_file(
+                    MOCaseOutput) + " " + read_file(answerBroadDebateOutput) + " " + read_file(frontlineOutputFile))
                 write_file(MOSpeechOutput, finalSpeech)
 
     else:
         broadAnswersMessage = read_file(answerBroadMessageFile)
-        broadAnswers = makeAPIRequestFreshSystem(debateWelcomeInfo, broadAnswersMessage)
+        broadAnswers = makeAPIRequestFreshSystem(
+            debateWelcomeInfo, broadAnswersMessage)
         write_file(answerBroadDebateOutput, broadAnswers)
-        print("Broad answers have been written to {answerBroadDebateOutput}")       
+        print("Broad answers have been written to {answerBroadDebateOutput}")
         if speechNeeded == "DPM":
             finalSpeech = formalize(debateWelcomeInfo, broadAnswers)
             write_file(DPMOutput, finalSpeech)
         if speechNeeded == "DLO":
-            write_file(frontlineOutputFile, frontline(debateWelcomeInfo, "DLO"))
-            finalSpeech = formalize(debateWelcomeInfo, broadAnswers + " " + read_file(frontlineOutputFile) )
+            write_file(frontlineOutputFile, frontline(
+                debateWelcomeInfo, "DLO"))
+            finalSpeech = formalize(
+                debateWelcomeInfo, broadAnswers + " " + read_file(frontlineOutputFile))
             write_file(DLOOutput, finalSpeech)
         else:
             if speechNeeded == "GW":
-                write_file(frontlineOutputFile, frontline(debateWelcomeInfo, "GW"))
+                write_file(frontlineOutputFile, frontline(
+                    debateWelcomeInfo, "GW"))
                 finalSpeech = formalize(debateWelcomeInfo, broadAnswers)
                 write_file(GWOutput, finalSpeech)
             if speechNeeded == "OW":
-                write_file(frontlineOutputFile, frontline(debateWelcomeInfo, "OW"))
+                write_file(frontlineOutputFile, frontline(
+                    debateWelcomeInfo, "OW"))
                 finalSpeech = formalize(debateWelcomeInfo, broadAnswers)
                 write_file(OWOutput, finalSpeech)
 
 
 def formalize(debateWelcomeInfo, content):
-    finalSpeech = makeAPIRequestFreshSystemTurbo(debateWelcomeInfo, "This speech is almost ready to ouput. Make sure that everything looks ok. The speech should be ready for me to read verbatim, so make sure that there is no refrences to what I was thinking when I decided to make these arguments. Intead, focus on making the arguments themselves in the debate" ,content)
+    finalSpeech = makeAPIRequestFreshSystemTurbo(
+        debateWelcomeInfo, "This speech is almost ready to ouput. Make sure that everything looks ok. The speech should be ready for me to read verbatim, so make sure that there is no refrences to what I was thinking when I decided to make these arguments. Intead, focus on making the arguments themselves in the debate", content)
     return finalSpeech
+
+
 def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
     AlienExample = ("Here is the example case. This is from a debate with the motion This house hopes for the existence of aliens. This is the OG Speech from that debate" + read_file(AlienExampleFile))
@@ -130,7 +147,8 @@ def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
     if speechNeeded == "PM":
 
         PMMessage = read_file(PMCaseGeneration)
-        PM = makeAPIRequestFreshSystem(debateWelcomeInfo, PMMessage, AlienExample, brainStormedIdeas)
+        PM = makeAPIRequestFreshSystem(
+            debateWelcomeInfo, PMMessage, AlienExample, brainStormedIdeas)
 
         write_file(PMOutput, PM)
 
@@ -141,13 +159,17 @@ def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
         json_data = read_json(cleanDebateOutput)
         pm_speeches = json_data['PM']
-        definitions = [speech['text'] for speech in pm_speeches if speech.get('type') == 'definition']
+        definitions = [speech['text']
+                       for speech in pm_speeches if speech.get('type') == 'definition']
 
         if definitions:
-            defintionsInfo = "The key definitions from the OG speech were: " + ", ".join(definitions)
-            LO = makeAPIRequestFreshSystem(debateWelcomeInfo, LOMessage, AlienExample,brainStormedIdeas + defintionsInfo)
+            defintionsInfo = "The key definitions from the OG speech were: " + \
+                ", ".join(definitions)
+            LO = makeAPIRequestFreshSystem(
+                debateWelcomeInfo, LOMessage, AlienExample, brainStormedIdeas + defintionsInfo)
         else:
-            LO = makeAPIRequestFreshSystem(debateWelcomeInfo, LOMessage , AlienExample, brainStormedIdeas)
+            LO = makeAPIRequestFreshSystem(
+                debateWelcomeInfo, LOMessage, AlienExample, brainStormedIdeas)
         write_file(LOOutput, LO)
 
         print(f"LO Case has been written to {LOOutput}")
@@ -159,11 +181,13 @@ def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
         MGMOCaseDecisionMessage = read_file(MGMOCaseDecision)
         MGMOCaseGenerationMessage = read_file(MGMOCaseGeneration)
 
-        MGMOCaseDecisionOutput = makeAPIRequestFreshSystem(debateWelcomeInfo, speechSpecifcInfo , MGMOCaseDecisionMessage, summaryInfo)
+        MGMOCaseDecisionOutput = makeAPIRequestFreshSystem(
+            debateWelcomeInfo, speechSpecifcInfo, MGMOCaseDecisionMessage, summaryInfo)
 
         print("The MG/MO case decision has been made")
 
-        MGMOCase = makeAPIRequestFreshSystem(debateWelcomeInfo,speechSpecifcInfo ,MGMOCaseGenerationMessage, MGMOCaseDecisionOutput, summaryInfo)
+        MGMOCase = makeAPIRequestFreshSystem(
+            debateWelcomeInfo, speechSpecifcInfo, MGMOCaseGenerationMessage, MGMOCaseDecisionOutput, summaryInfo)
         if speechNeeded == "MG":
             write_file(MGCaseOutput, MGMOCase)
             print(f"MG Case has been written to {MGCaseOutput}")
@@ -171,7 +195,6 @@ def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
         if speechNeeded == "MO":
             write_file(MOCaseOutput, MGMOCase)
             print(f"MO Case has been written to {MOCaseOutput}")
-
 
     else:
         print("Invalid speech type")
@@ -184,29 +207,34 @@ def brainStormArguments(debateInfo):
     write_file(BrainStormOutput, brainStormedIdeas)
     print(f"Brainstorming has been written to {BrainStormMessageFile}")
 
+
 def brainStormBroadAnswers(debateWelcomeInfo, position):
-    
-    summaryOpponentsInfo = "The summary of the opponents cases so far is: " + broadSummaryOpponents(position)
+
+    summaryOpponentsInfo = "The summary of the opponents cases so far is: " + \
+        broadSummaryOpponents(position)
     broadAnswersMessage = read_file(answerBroadMessageFile)
-    
+
     broadAnswers = makeAPIRequestFreshSystem(
         debateWelcomeInfo, broadAnswersMessage, summaryOpponentsInfo)
-    
+
     write_file(answerBroadDebateOutput, broadAnswers)
     print("Broad answers have been written to {answerBroadDebateOutput}")
     return
 
-def frontline (debateWelcomeInfo, position): 
 
-    summaryOpponentsInfo = "The opponents have made the following arguments against us  " + broadSummaryOpponentsAttacks(position)
+def frontline(debateWelcomeInfo, position):
+
+    summaryOpponentsInfo = "The opponents have made the following arguments against us  " + \
+        broadSummaryOpponentsAttacks(position)
     frontLineMessage = read_file(frontLineMessage)
-    
+
     frontlines = makeAPIRequestFreshSystem(
         debateWelcomeInfo, frontLineMessage, summaryOpponentsInfo)
-    
+
     write_file(frontlineOutputFile, frontlines)
     print("Broad answers have been written to {frontlineOutputFile}")
     return
+
 
 def answerArguments(input_filename, output_filename):
     data = read_json(input_filename)
@@ -283,7 +311,8 @@ def write_json(filepath, data):
 
 rawDebateInput = os.getcwd() + '/VapYapDjango/content/input/'
 cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/RawTracking.json'
-answerDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/AnswerTracking.json'
+answerDebateOutput = os.getcwd(
+) + '/VapYapDjango/content/globalTracking/AnswerTracking.json'
 
 answerBroadDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerBroadOutput.txt'
 BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
@@ -313,6 +342,7 @@ frontLineMessage = os.getcwd() + '/VapYapDjango/prompts/frontline.txt'
 
 PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration.txt'
 LOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/LOCaseGeneration.txt'
-MGMOCaseDecision = os.getcwd() + '/VapYapDjango/prompts/caseGen/caseDecision/MGMOCaseDecision.txt'
+MGMOCaseDecision = os.getcwd(
+) + '/VapYapDjango/prompts/caseGen/caseDecision/MGMOCaseDecision.txt'
 MGMOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/MGMOCaseGeneration.txt'
 AlienExampleFile = os.getcwd() + '/VapYapDjango/prompts/caseGen/CaseExampleAlien.txt'
