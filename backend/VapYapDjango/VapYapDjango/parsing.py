@@ -34,6 +34,7 @@ def returnJSONObject(request: HttpRequest):
 
     for speechType in orderOfSpeeches:
         if speechType in positionToOrderOfSpeeches[position]:
+            soeechNeeded = speechType
             parse_RawArguments(rawDebateInput, rawDebateOutput)
             clean_RawArguments(rawDebateOutput, cleanDebateOutput)
             answerArguments(cleanDebateOutput, answerDebateOutput)
@@ -88,14 +89,14 @@ def caseGeneration(motion, infoSlide, position, speechNeeded):
                      "The summary of the debate so far speech by speech is: " + summary
         MGCaseDecisionMessage = read_file(MGCaseDecision)
         MGCaseGenerationMessage = read_file(MGCaseGeneration)
-        MGCaseDecision = makeAPIRequestFreshSystem(
+        MGCaseDecisionOutput = makeAPIRequestFreshSystem(
             MGCaseDecisionMessage, debateInfo)
         print("The MG case decision has been made " + MGCaseDecision)
         caseInfo = ("The motion reads: " + motion +
                     " The info slide, if it exists reads: " +
                     infoSlide +
-                    "My loose plan for the case are: " +
-                    MGCaseDecision)
+                    "My plan for the case is: " +
+                    MGCaseDecisionOutput)
         MGCase = makeAPIRequestFreshSystem(MGCaseGenerationMessage, caseInfo)
         write_file(MGCaseOutput, MGCase)
         print(f"MG Case has been written to {MGCaseOutput}")

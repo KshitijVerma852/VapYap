@@ -1,7 +1,7 @@
 {
     "PM": [
         {
-            "text": "Climate change is detrimental because it leads to air pollution.",
+            "text": "Climate change is harmful because it leads to air pollution.",
             "strength": 1
         },
         {
@@ -17,15 +17,15 @@
             "strength": 1
         },
         {
-            "text": "Climate change is detrimental because it results in air pollution.",
+            "text": "Climate change is harmful because it leads to air pollution.",
             "strength": 1
         },
         {
-            "text": "Air pollution kills many people because it causes them to develop lung cancer.",
+            "text": "Air pollution kills many people because it causes lung cancer.",
             "strength": 1
         },
         {
-            "text": "Air pollution also causes poverty by decreasing tourism, which in turn hurts the economy.",
+            "text": "Air pollution also causes poverty by decreasing tourism, which hurts the economy.",
             "strength": 2
         },
         {
