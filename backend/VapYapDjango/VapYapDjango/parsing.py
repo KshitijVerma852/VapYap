@@ -35,21 +35,24 @@ def returnJSONObject(request: HttpRequest):
             if "title" in data and "content" in data:
                 title = data.get("title")
                 content = data.get("content")
+                with open(f"content/input/{title.upper()}Speech.txt", "w") as speechFile:
+                    speechFile.write(title)
+                    speechFile.write(content)
             else:
                 motion = data.get("motion")
                 infoSlide = data.get("infoSlide")
                 position = data.get("position")
 
-    # for speechType in orderOfSpeeches:
-    #     if speechType in positionToOrderOfSpeeches[position]:
-    #         soeechNeeded = speechType
-    #         parse_RawArguments(rawDebateInput, rawDebateOutput)
-    #         clean_RawArguments(rawDebateOutput, cleanDebateOutput)
-    #         answerArguments(cleanDebateOutput, answerDebateOutput)
+    for speechType in orderOfSpeeches:
+        if speechType in positionToOrderOfSpeeches[position]:
+            soeechNeeded = speechType
+            parse_RawArguments(rawDebateInput, rawDebateOutput)
+            clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+            answerArguments(cleanDebateOutput, answerDebateOutput)
 
     speechNeeded = "MO"
 
-    # caseGeneration(motion, infoSlide, position, speechNeeded)
+    caseGeneration(motion, infoSlide, position, speechNeeded)
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
@@ -243,13 +246,6 @@ LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
 MGCaseOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
 MOCaseOutput = os.getcwd() + '/VapYapDjango/content/MOCase.txt'
 
-<<<<<<< Updated upstream
-=======
-
-
-
-
->>>>>>> Stashed changes
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
 BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
 answerMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentAnswer.txt'
