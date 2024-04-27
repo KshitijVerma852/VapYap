@@ -17,6 +17,18 @@ orderOfSpeeches = ["PM", "LO", "DPM", "DLO", "MG", "MO", "GW", "OW"]
 speechNumberIndex = 0
 
 
+def initializeFormData(request: HttpRequest):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        return data.get("motion"), data.get("infoSlide"), data.get("position")
+
+
+def fetchNextSpeechFromFrontend(request: HttpRequest):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        return data.get("title"), data.get("content")
+
+
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
     useFrontend = True
@@ -29,26 +41,38 @@ def returnJSONObject(request: HttpRequest):
     position = "OG"
     content = ""
     title = ""
+    # if useFrontend:
+    #     if request.method == "POST":
+    #         data = json.loads(request.body)
+    #         if "title" in data and "content" in data:
+    #             title = data.get("title")
+    #             content = data.get("content")
+    #             with open(f"content/input/{title.upper()}.txt", "w") as speechFile:
+    #                 speechFile.write(title)
+    #                 speechFile.write(content)
+    #         else:
+    #             motion = data.get("motion")
+    #             infoSlide = data.get("infoSlide")
+    #             position = data.get("position")
+
     if useFrontend:
-        if request.method == "POST":
-            data = json.loads(request.body)
-            if "title" in data and "content" in data:
-                title = data.get("title")
-                content = data.get("content")
+        motion, infoSlide, position = initializeFormData(request)
+        # TODO: Graham - Process the motion, infoSlide and position
+
+        for speechType in orderOfSpeeches:
+            if speechType in positionToOrderOfSpeeches[position]:
+                # TODO: Graham - Generate speech
+                parse_RawArguments(rawDebateInput + speechType + "Speech", rawDebateOutput)
+                clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+                answerArguments(cleanDebateOutput, answerDebateOutput)
+                caseGeneration(motion, infoSlide, position, speechType)
+            else:
+                title, content = fetchNextSpeechFromFrontend(request)
                 with open(f"content/input/{title.upper()}.txt", "w") as speechFile:
                     speechFile.write(title)
                     speechFile.write(content)
-            else:
-                motion = data.get("motion")
-                infoSlide = data.get("infoSlide")
-                position = data.get("position")
 
-    for speechType in orderOfSpeeches:
-        if speechType in positionToOrderOfSpeeches[position]:
-            parse_RawArguments(rawDebateInput+speechType+"Speech", rawDebateOutput)
-            clean_RawArguments(rawDebateOutput, cleanDebateOutput)
-            answerArguments(cleanDebateOutput, answerDebateOutput)
-            caseGeneration(motion, infoSlide, position, speechType)
+            # TODO: Graham - Process either the generated speech or received speech
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
@@ -126,7 +150,7 @@ def brainStormBroadAnswers(debateInfo, position):
     summaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
     broadAnswers = read_file(answerBroadMessageFile)
     broadAnswers = makeAPIRequestFreshSystem(
-        welcomeInfo, debateInfo, broadAnswers ,summaryInfo)
+        welcomeInfo, debateInfo, broadAnswers, summaryInfo)
     write_file(answerBroadDebateOutput, broadAnswers)
     print("Broad answers have been written to {answerBroadDebateOutput}")
     return
@@ -136,8 +160,7 @@ def evalValueOfAnswers():
     welcomeInfo = "You are a British Parli debater on the team of {position}"
     broadSummaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
     broadAnswers = read_file(answerBroadDebateOutput)
-    broadAnswersOutput = makeAPIRequestFreshSystem(
-        welcomeInfo, "You are to represent the side x on motion Y", broadAnswers, broadSummaryInfo)
+
     return
 
 
@@ -236,7 +259,6 @@ answerDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/AnswerT
 
 answerBroadDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerBroadOutput.txt'
 BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
-
 
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
