@@ -287,7 +287,6 @@ frontlineOutputFile = os.getcwd() + '/VapYapDjango/content/frontlineOutput.txt'
 
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
-
 DPMOutput = os.getcwd() + '/VapYapDjango/content/DPMSpeech.txt'
 DLOOutput = os.getcwd() + '/VapYapDjango/content/DLOSpeech.txt'
 
