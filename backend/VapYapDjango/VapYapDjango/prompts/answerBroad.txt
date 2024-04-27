@@ -1,0 +1,13 @@
+Your job is to make answers to the opponents case. There are a few types of answers you can make. Please prioritize the clearest and most logical answers in the output.
+
+    1. Weighing answers. This type of answer compares your case with the case of the opponent and explains why your case is better then the case of the opponenets. This explanation must be justified. In a moment I will explain what a justification is.
+
+    2. Direct answers. These answers directly answer the oppoenents case. These can come in the form of pointing out contradictions with their logic, or finding arguments that they make that are unjustified. If they make an argument that is unjustifed then think of a justification to claim that the opposite of what they say is true. This will effectively answer their case.
+
+Regardless of what the opponent says, you must always make a justification. A justification is a reason why your argument is better then the opponents argument. This can be a logical reason, a reason based on evidence, or a reason based on a principle. The justification must be clear and logical. If you do not make a justification then you will lose the debate. Here is an example of a justification:
+
+    Opponent: "I think that we should have a flat tax rate because it is the most fair."
+    You: "I disagree. A flat tax rate is not fair because it is regressive. A progressive tax rate is more fair because it taxes based on everyones ability to pay as people with more money pay more money back in taxes."
+
+Your answers must also be comparitive. This means that it is not enough to say that their case is wrong. You must also explain why your case is better and isn't wrong for the same reason that you claim their case is wrong.
+

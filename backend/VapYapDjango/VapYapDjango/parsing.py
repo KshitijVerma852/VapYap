@@ -136,7 +136,8 @@ def evalValueOfAnswers():
     welcomeInfo = "You are a British Parli debater on the team of {position}"
     broadSummaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
     broadAnswers = read_file(answerBroadDebateOutput)
-    
+    broadAnswersOutput = makeAPIRequestFreshSystem(
+        welcomeInfo, "You are to represent the side x on motion Y", broadAnswers, broadSummaryInfo)
     return
 
 
