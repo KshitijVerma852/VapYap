@@ -57,22 +57,29 @@ def returnJSONObject(request: HttpRequest):
 
     if useFrontend:
         motion, infoSlide, position = initializeFormData(request)
-        # TODO: Graham - Process the motion, infoSlide and position
-
+        
+        if infoSlide is None:
+            debateWelcomeInfo = "You are a British Parlimentary debater. You are debating the motion {motion}. You are set to represent the {position} position."
+        else:
+            debateWelcomeInfo = "You are a British Parlimentary debater. You are debating the motion {motion}. The info slide reads: {infoSlide}. You are set to represent the {position} position."
+        
         for speechType in orderOfSpeeches:
             if speechType in positionToOrderOfSpeeches[position]:
                 # TODO: Graham - Generate speech
                 parse_RawArguments(rawDebateInput + speechType + "Speech", rawDebateOutput)
                 clean_RawArguments(rawDebateOutput, cleanDebateOutput)
                 answerArguments(cleanDebateOutput, answerDebateOutput)
-                caseGeneration(motion, infoSlide, position, speechType)
+                
+                caseGeneration(motion, infoSlide, position, speechType) #Make this speech generation in the future
             else:
                 title, content = fetchNextSpeechFromFrontend(request)
                 with open(f"content/input/{title.upper()}.txt", "w") as speechFile:
                     speechFile.write(title)
                     speechFile.write(content)
 
-            # TODO: Graham - Process either the generated speech or received speech
+            parse_RawArguments(rawDebateInput + speechType + "Speech", rawDebateOutput)
+            clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+            answerArguments(cleanDebateOutput, answerDebateOutput)
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
