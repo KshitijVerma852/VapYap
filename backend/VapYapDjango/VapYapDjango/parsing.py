@@ -15,8 +15,8 @@ positionToOrderOfSpeeches = {
     "CO": ["MO", "OW"]
 }
 orderOfSpeeches = ["PM", "LO", "DPM", "DLO", "MG", "MO", "GW", "OW"]
-speechNumberIndex = 0
 
+firstRun = True
 
 def initializeFormData(request: HttpRequest):
     if request.method == "POST":
@@ -29,50 +29,88 @@ def fetchNextSpeechFromFrontend(request: HttpRequest):
         data = json.loads(request.body)
         return data.get("title"), data.get("content")
 
+speechNumberIndex = 0
+position = ""
+motion = ""
 
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
+    global speechNumberIndex, firstRun, position, motion
     useFrontend = True
 
     print("Start running")
 
-    motion = ("This House believes that democratic states should grant an amnesty to whistleblowers who expose "
-              "unethical practices in the government.")
-    infoSlide = ""
-    position = "OG"
-    content = ""
-    title = ""
+    # motion = ("This House believes that democratic states should grant an amnesty to whistleblowers who expose "
+    #           "unethical practices in the government.")
+    # infoSlide = ""
+    # position = "OG"
+    # content = ""
+    # title = ""
+
 
     if useFrontend:
-        motion, infoSlide, position = initializeFormData(request)
-        
-        if infoSlide is None:
-            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. You are set to represent the {position} position."
-        else:
-            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. The info slide reads: {infoSlide}. You are set to represent the {position} position."
-
-        brainStormedIdeas = brainStormArguments(debateWelcomeInfo)
-
-
-        for speechType in orderOfSpeeches:
-            if speechType in positionToOrderOfSpeeches[position]:
-                makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
+        if firstRun:
+            motion, infoSlide, position = initializeFormData(request)
+            
+            if infoSlide is None:
+                debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. You are set to represent the {position} position."
             else:
-                title, content = fetchNextSpeechFromFrontend(request)
-                with open(f"content/input/{title.upper()}.txt", "w") as speechFile:
-                    speechFile.write(title)
-                    speechFile.write(content)
+                debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. The info slide reads: {infoSlide}. You are set to represent the {position} position."
 
-            parse_RawArguments(rawDebateInput + speechType + "Speech", cleanDebateOutput)
-            answerArguments(cleanDebateOutput, answerDebateOutput)
+            brainStormArguments(debateWelcomeInfo)
+            brainStormedIdeas = read_file(BrainStormOutput)
+            firstRun = False
+
+
+        if speechNumberIndex <= len(orderOfSpeeches) - 1:
+            print(speechNumberIndex)
+            speechType = orderOfSpeeches[speechNumberIndex]
+            if speechNumberIndex == 0:
+                print("Trying to make a speech for " + speechType)
+                makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
+                print("Made a speech for PM " + speechType)
+                speechNumberIndex += 1
+            elif speechType in positionToOrderOfSpeeches[position]:
+                print("Trying to make a speech for " + speechType)
+                makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
+                print("Made a speech for PM " + speechType)
+                speechNumberIndex += 1
+            else:
+                print("Here")
+                title, content = fetchNextSpeechFromFrontend(request)
+                with open(os.getcwd() + f'/VapYapDjango/content/input/{title.upper()}.txt', "w") as speechFile:
+                    speechFile.write(title)
+                    speechFile.write("\n")
+                    speechFile.write(content)
+                parse_RawArguments(rawDebateInput + title.upper() + ".txt", cleanDebateOutput)
+                answerArguments(cleanDebateOutput, answerDebateOutput)
+
+                
+
+                speechNumberIndex += 1
+
+        # for speechType in orderOfSpeeches:
+        #     if speechType in positionToOrderOfSpeeches[position]:
+        #         print("Trying to make a speech for " + speechType)
+        #         makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
+        #         print("Made a speech for PM " + speechType)
+        #     else:
+        #         print("Here")
+        #         title, content = fetchNextSpeechFromFrontend(request)
+        #         with open(f"content/input/{title.upper()}.txt", "w") as speechFile:
+        #             speechFile.write(title)
+        #             speechFile.write(content)
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
+def getSpeechNumberIndex(speechNumberIndex):
+    return speechNumberIndex
+
 def makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
-    if speechNeeded in ("OG", "LO", "MG", "MO"):
+    if speechNeeded in ("PM", "LO", "MG", "MO"):
         caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded)
-        if speechNeeded in ("OG", "LO"):
+        if speechNeeded in ("PM", "LO"):
             return
         else:
             brainStormBroadAnswers(debateWelcomeInfo, speechNeeded)
@@ -113,12 +151,12 @@ def formalize(debateWelcomeInfo, content):
     return finalSpeech
 def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 
-    AlienExample = ("Here is the example case. This is from a debate with the motion This house hopes for the existence of aliens. This is the OG Speech from that debate" + read_file(AlienExample))
+    AlienExample = ("Here is the example case. This is from a debate with the motion This house hopes for the existence of aliens. This is the OG Speech from that debate" + read_file(AlienExampleFile))
 
     if speechNeeded == "PM":
 
         PMMessage = read_file(PMCaseGeneration)
-        PM = makeAPIRequestFreshSystem(debateWelcomeInfo, PMMessage, AlienExample ,brainStormedIdeas)
+        PM = makeAPIRequestFreshSystem(debateWelcomeInfo, PMMessage, AlienExample, brainStormedIdeas)
 
         write_file(PMOutput, PM)
 
@@ -310,4 +348,4 @@ PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration
 LOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/LOCaseGeneration.txt'
 MGMOCaseDecision = os.getcwd() + '/VapYapDjango/prompts/caseGen/caseDecision/MGMOCaseDecision.txt'
 MGMOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/MGMOCaseGeneration.txt'
-AlienExample = os.getcwd() + '/VapYapDjango/content/AlienExample.txt'
+AlienExampleFile = os.getcwd() + '/VapYapDjango/prompts/caseGen/CaseExampleAlien.txt'
