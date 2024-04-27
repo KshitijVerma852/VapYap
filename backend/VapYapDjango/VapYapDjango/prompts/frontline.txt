@@ -1,1 +1,5 @@
-Answer these attacks against us
+The following arguments were made against us. Please think of creative and effective ways to counter these arguments. Below are several strategies that I reccomend you use. You dont need to use all of them or any of them, but the following aproaches have been effective in the past for me.
+    1. Proving that the same vulnerability the opponent pointed out in our case exists in their case
+    2. Arguing that their argument is just a claim with no justification
+    3. Arguing that our case is stronger theirs even if their argument is true.
+    4. Countering the justification behind the claim in their argument. This involves attacking the core of their argument and disproving it.

@@ -65,8 +65,7 @@ def returnJSONObject(request: HttpRequest):
                     speechFile.write(title)
                     speechFile.write(content)
 
-            parse_RawArguments(rawDebateInput + speechType + "Speech", rawDebateOutput)
-            clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+            parse_RawArguments(rawDebateInput + speechType + "Speech", cleanDebateOutput)
             answerArguments(cleanDebateOutput, answerDebateOutput)
 
     return JsonResponse({"ai_response": "dfdai_response"})
@@ -88,9 +87,29 @@ def makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
                 finalSpeech = formalize(debateWelcomeInfo, read_file(MOCaseOutput)+ " " + read_file(answerBroadDebateOutput))
                 write_file(MOSpeechOutput, finalSpeech)
 
-    elif speechNeeded in ("GW", "OW", "DPM", "DLO"):
-        print("HGi")
-    
+    else:
+        broadAnswersMessage = read_file(answerBroadMessageFile)
+        broadAnswers = makeAPIRequestFreshSystem(debateWelcomeInfo, broadAnswersMessage)
+        write_file(answerBroadDebateOutput, broadAnswers)
+        print("Broad answers have been written to {answerBroadDebateOutput}")       
+        if speechNeeded == "DPM":
+            finalSpeech = formalize(debateWelcomeInfo, broadAnswers)
+            write_file(DPMOutput, finalSpeech)
+        if speechNeeded == "DLO":
+            write_file(frontlineOutputFile, frontline(debateWelcomeInfo, "DLO"))
+            finalSpeech = formalize(debateWelcomeInfo, broadAnswers + " " + read_file(frontlineOutputFile) )
+            write_file(DLOOutput, finalSpeech)
+        else:
+            if speechNeeded == "GW":
+                write_file(frontlineOutputFile, frontline(debateWelcomeInfo, "GW"))
+                finalSpeech = formalize(debateWelcomeInfo, broadAnswers)
+                write_file(GWOutput, finalSpeech)
+            if speechNeeded == "OW":
+                write_file(frontlineOutputFile, frontline(debateWelcomeInfo, "OW"))
+                finalSpeech = formalize(debateWelcomeInfo, broadAnswers)
+                write_file(OWOutput, finalSpeech)
+
+
 def formalize(debateWelcomeInfo, content):
     adjustedContent = adjustLength(content)
     finalSpeech = makeAPIRequestFreshSystemTurbo(debateWelcomeInfo, "This speech is almost ready to ouput. Make sure that everything looks ok. The speech should be ready for me to read verbatim, so make sure that there is no refrences to what I was thinking when I decided to make these arguments. Intead, focus on making the arguments themselves in the debate" ,adjustedContent)
@@ -190,21 +209,6 @@ def evalValueOfAnswers():
     return
 
 
-def clean_RawArguments(input_filename, output_filename):
-    data = read_json(input_filename)
-    cleanMessage = read_file(cleanMessageFile)
-
-    clean_data = {}
-    for speech_type, arguments in data.items():
-        clean_data[speech_type] = [{
-            'text': makeAPIRequestFreshSystemTurbo(cleanMessage, arg['text']),
-            'strength': arg['strength']
-        } for arg in arguments]
-
-    write_json(output_filename, clean_data)
-    print(f"Clean data has been written to {output_filename}")
-
-
 def answerArguments(input_filename, output_filename):
     data = read_json(input_filename)
     answerMessage = read_file(answerMessageFile)
@@ -291,19 +295,23 @@ frontlineOutputFile = os.getcwd() + '/VapYapDjango/content/frontlineOutput.txt'
 PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
 LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
 
+DPMOutput = os.getcwd() + '/VapYapDjango/content/DPMSpeech.txt'
+DLOOutput = os.getcwd() + '/VapYapDjango/content/DLOSpeech.txt'
+
 MGCaseOutput = os.getcwd() + '/VapYapDjango/content/MGCase.txt'
 MGSpeechOutput = os.getcwd() + '/VapYapDjango/content/MGSpeech.txt'
 
 MOCaseOutput = os.getcwd() + '/VapYapDjango/content/MOCase.txt'
 MOSpeechOutput = os.getcwd() + '/VapYapDjango/content/MOSpeech.txt'
 
+GWOutput = os.getcwd() + '/VapYapDjango/content/GWSpeech.txt'
+OWOutput = os.getcwd() + '/VapYapDjango/content/OWSpeech.txt'
 
 cleanMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentCleaning.txt'
 BrainStormMessageFile = os.getcwd() + '/VapYapDjango/prompts/motionBrainStorm.txt'
 answerMessageFile = os.getcwd() + '/VapYapDjango/prompts/argumentAnswer.txt'
 answerBroadMessageFile = os.getcwd() + '/VapYapDjango/prompts/answerBroad.txt'
 frontLineMessage = os.getcwd() + '/VapYapDjango/prompts/frontline.txt'
-
 
 
 PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration.txt'
