@@ -208,13 +208,6 @@ def frontline (debateWelcomeInfo, position):
     print("Broad answers have been written to {frontlineOutputFile}")
     return
 
-def evalValueOfAnswers():
-    welcomeInfo = "You are a British Parli debater on the team of {position}"
-    broadSummaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
-    broadAnswers = read_file(answerBroadDebateOutput)
-
-    return
-
 def answerArguments(input_filename, output_filename):
     data = read_json(input_filename)
     answerMessage = read_file(answerMessageFile)
