@@ -59,7 +59,7 @@ def returnJSONObject(request: HttpRequest):
     if speechNumberIndex <= len(orderOfSpeeches) - 1:
         print(speechNumberIndex)
         speechType = orderOfSpeeches[speechNumberIndex]
-        if speechNumberIndex == 0:
+        if speechNumberIndex == 100:
             print("Trying to make a speech for " + speechType)
             makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
             print("Made a speech for PM " + speechType)
@@ -78,7 +78,6 @@ def returnJSONObject(request: HttpRequest):
                 speechFile.write(content)
             parse_RawArguments(
                 rawDebateInput + title.upper() + ".txt", cleanDebateOutput)
-            answerArguments(cleanDebateOutput, answerDebateOutput)
 
             speechNumberIndex += 1
 
@@ -111,7 +110,7 @@ def makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
         broadAnswers = makeAPIRequestFreshSystem(
             debateWelcomeInfo, broadAnswersMessage)
         write_file(answerBroadDebateOutput, broadAnswers)
-        print("Broad answers have been written to {answerBroadDebateOutput}")
+        print(f"Broad answers have been written to {answerBroadDebateOutput}")
         if speechNeeded == "DPM":
             finalSpeech = formalize(debateWelcomeInfo, broadAnswers)
             write_file(DPMOutput, finalSpeech)
@@ -215,7 +214,7 @@ def brainStormBroadAnswers(debateWelcomeInfo, position):
     broadAnswersMessage = read_file(answerBroadMessageFile)
 
     broadAnswers = makeAPIRequestFreshSystem(
-        debateWelcomeInfo, broadAnswersMessage, summaryOpponentsInfo)
+        debateWelcomeInfo, broadAnswersMessage,summaryOpponentsInfo)
 
     write_file(answerBroadDebateOutput, broadAnswers)
     print("Broad answers have been written to {answerBroadDebateOutput}")
@@ -234,21 +233,6 @@ def frontline(debateWelcomeInfo, position):
     write_file(frontlineOutputFile, frontlines)
     print("Broad answers have been written to {frontlineOutputFile}")
     return
-
-
-def answerArguments(input_filename, output_filename):
-    data = read_json(input_filename)
-    answerMessage = read_file(answerMessageFile)
-    clean_data = {}
-    for speech_type, arguments in data.items():
-        clean_data[speech_type] = [{
-            'text': makeAPIRequestFreshSystemTurbo(answerMessage, arg['text']),
-            'strength': arg['strength']
-        } for arg in arguments]
-
-    write_json(output_filename, clean_data)
-
-    print(f"Answered data has been written to {output_filename}")
 
 
 def parse_RawArguments(input_filename, output_filename):
@@ -342,7 +326,6 @@ frontLineMessage = os.getcwd() + '/VapYapDjango/prompts/frontline.txt'
 
 PMCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/PMCaseGeneration.txt'
 LOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/LOCaseGeneration.txt'
-MGMOCaseDecision = os.getcwd(
-) + '/VapYapDjango/prompts/caseGen/caseDecision/MGMOCaseDecision.txt'
+MGMOCaseDecision = os.getcwd() + '/VapYapDjango/prompts/caseGen/caseDecision/MGMOCaseDecision.txt'
 MGMOCaseGeneration = os.getcwd() + '/VapYapDjango/prompts/caseGen/MGMOCaseGeneration.txt'
 AlienExampleFile = os.getcwd() + '/VapYapDjango/prompts/caseGen/CaseExampleAlien.txt'
