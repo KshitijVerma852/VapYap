@@ -5,7 +5,7 @@
             "strength": 1
         },
         {
-            "text": "Air pollution kills many people because it can cause lung cancer.",
+            "text": "Air pollution kills many people because it causes lung cancer.",
             "strength": 1
         },
         {
@@ -21,21 +21,21 @@
             "strength": 1
         },
         {
-            "text": "Air pollution kills many people because it causes them to develop lung cancer.",
+            "text": "Air pollution kills many people because it causes lung cancer.",
             "strength": 1
         },
         {
-            "text": "Air pollution also causes poverty by decreasing tourism, which in turn harms the economy.",
+            "text": "Air pollution also causes poverty by decreasing tourism, which hurts the economy.",
             "strength": 2
         },
         {
-            "text": "Climate change also leads to heatwaves as the ozone effect occurs.",
+            "text": "Climate change also leads to heatwaves due to the ozone effect.",
             "strength": 1
         }
     ],
     "LO": [
         {
-            "text": "Lo made this argument, whatever it may be.",
+            "text": "Somebody made this argument, whatever it may be.",
             "strength": 1
         },
         {

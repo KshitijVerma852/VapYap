@@ -58,54 +58,50 @@ def returnJSONObject(request: HttpRequest):
 
 def caseGeneration(motion, infoSlide, position, speechNeeded):
     brainStormedIdeas = read_file(BrainStormOutput)
+    
+    brainStormedIdeasInfo = ("My ideas for the motion are: " + brainStormedIdeas)
     debateInfo = ("The motion reads: " + motion + " The info slide, if it exists reads: " +
-                  infoSlide + "My ideas for the motion are: " + brainStormedIdeas)
+                  infoSlide)
 
     if speechNeeded == "PM":
 
         PMMessage = read_file(PMCaseGeneration)
-        PM = makeAPIRequestFreshSystem(PMMessage, debateInfo)
+        PM = makeAPIRequestFreshSystem(PMMessage, debateInfo, brainStormedIdeasInfo)
         lengthAdjustedPM = adjustLength(PM)
         write_file(PMOutput, lengthAdjustedPM)
 
         print(f"PM Case has been written to {PMOutput}")
 
     elif speechNeeded == "LO":
+        LOMessage = read_file(LOCaseGeneration)
 
-        definitions = 0
         json_data = read_json(cleanDebateOutput)
         pm_speeches = json_data['PM']
-        for argument in pm_speeches:
-            if argument.get('type') == 'definition':
-                definitions = definitions + 1
-        if definitions != 0:
-            debateInfo = debateInfo + "The key definitions from the OG speech were"
-            for speech in pm_speeches:
-                if speech.get('type') == 'definition':
-                    debateInfo = debateInfo + (speech.get('text')) + ",  "
+        definitions = [speech['text'] for speech in pm_speeches if speech.get('type') == 'definition']
 
-        LOMessage = read_file(LOCaseGeneration)
-        LO = makeAPIRequestFreshSystem(LOMessage, debateInfo)
+        if definitions:
+                defintionsInfo = "The key definitions from the OG speech were: " + ", ".join(definitions)
+                LO = makeAPIRequestFreshSystem(LOMessage, debateInfo, brainStormedIdeasInfo + defintionsInfo)
+        else:
+                LO = makeAPIRequestFreshSystem(LOMessage, debateInfo, brainStormedIdeasInfo)
+        
         lengthAdjustedLO = adjustLength(LO)
         write_file(LOOutput, lengthAdjustedLO)
 
         print(f"LO Case has been written to {LOOutput}")
 
     elif speechNeeded == "MG":
-        summary = broadSummary()
-        debateInfo = debateInfo + \
-                     "The summary of the debate so far speech by speech is: " + summary
+
+        summaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
+        
         MGCaseDecisionMessage = read_file(MGCaseDecision)
         MGCaseGenerationMessage = read_file(MGCaseGeneration)
-        MGCaseDecisionOutput = makeAPIRequestFreshSystem(
-            MGCaseDecisionMessage, debateInfo)
-        print("The MG case decision has been made " + MGCaseDecision)
-        caseInfo = ("The motion reads: " + motion +
-                    " The info slide, if it exists reads: " +
-                    infoSlide +
-                    "My plan for the case is: " +
-                    MGCaseDecisionOutput)
-        MGCase = makeAPIRequestFreshSystem(MGCaseGenerationMessage, caseInfo)
+        
+        MGCaseDecisionOutput = makeAPIRequestFreshSystem(MGCaseDecisionMessage, debateInfo, brainStormedIdeasInfo, summaryInfo)
+        print("The MG case decision has been made")
+
+        
+        MGCase = makeAPIRequestFreshSystem(MGCaseGenerationMessage, debateInfo, MGCaseDecisionOutput ,summaryInfo)
         write_file(MGCaseOutput, MGCase)
         print(f"MG Case has been written to {MGCaseOutput}")
 
