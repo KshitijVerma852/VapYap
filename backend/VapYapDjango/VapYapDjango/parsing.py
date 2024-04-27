@@ -20,6 +20,7 @@ speechNumberIndex = 0
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
     useFrontend = True
+    useSetupPageData = True
     print("Start running")
 
     motion = ("This House believes that democratic states should grant an amnesty to whistleblowers who expose "
@@ -28,22 +29,29 @@ def returnJSONObject(request: HttpRequest):
     position = "OG"
     if useFrontend:
         if request.method == "POST":
-            motion = request.POST["motion"]
-            infoSlide = request.POST["infoSlide"]
-            position = request.POST["position"]
+            if useSetupPageData:
+                motion = request.POST["motion"]
+                infoSlide = request.POST["infoSlide"]
+                position = request.POST["position"]
+                useSetupPageData = False
+                print(motion, infoSlide, position)
+            else:
+                title = request.POST["title"]
+                content = request.POST["content"]
+                print(title, content)
 
-    for speechType in orderOfSpeeches:
-        if speechType in positionToOrderOfSpeeches[position]:
-            soeechNeeded = speechType
-            parse_RawArguments(rawDebateInput, rawDebateOutput)
-            clean_RawArguments(rawDebateOutput, cleanDebateOutput)
-            answerArguments(cleanDebateOutput, answerDebateOutput)
-
-    summary = broadSummary()
-
-    speechNeeded = "MG"
-
-    caseGeneration(motion, infoSlide, position, speechNeeded)
+    # for speechType in orderOfSpeeches:
+    #     if speechType in positionToOrderOfSpeeches[position]:
+    #         soeechNeeded = speechType
+    #         parse_RawArguments(rawDebateInput, rawDebateOutput)
+    #         clean_RawArguments(rawDebateOutput, cleanDebateOutput)
+    #         answerArguments(cleanDebateOutput, answerDebateOutput)
+    #
+    # summary = broadSummary()
+    #
+    # speechNeeded = "MG"
+    #
+    # caseGeneration(motion, infoSlide, position, speechNeeded)
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
