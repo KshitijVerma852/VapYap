@@ -76,6 +76,8 @@ def returnJSONObject(request: HttpRequest):
                 speechFile.write(title)
                 speechFile.write("\n")
                 speechFile.write(content)
+            # input is the frontend argument and output is the global tracking json file
+            # Currently output fucks up with the argument strength
             parse_RawArguments(
                 rawDebateInput + title.upper() + ".txt", cleanDebateOutput)
 
@@ -174,7 +176,7 @@ def caseGeneration(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
         print(f"LO Case has been written to {LOOutput}")
 
     elif speechNeeded in ("MG", "MO"):
-        speechSpecifcInfo = "You are on the team of {speechNeeded}"
+        speechSpecifcInfo = f"You are on the team of {speechNeeded}"
         summaryInfo = "The summary of the debate so far speech by speech is: " + broadSummary()
 
         MGMOCaseDecisionMessage = read_file(MGMOCaseDecision)
@@ -217,7 +219,7 @@ def brainStormBroadAnswers(debateWelcomeInfo, position):
         debateWelcomeInfo, broadAnswersMessage,summaryOpponentsInfo)
 
     write_file(answerBroadDebateOutput, broadAnswers)
-    print("Broad answers have been written to {answerBroadDebateOutput}")
+    print(f"Broad answers have been written to {answerBroadDebateOutput}")
     return
 
 
@@ -231,7 +233,7 @@ def frontline(debateWelcomeInfo, position):
         debateWelcomeInfo, frontLineMessage, summaryOpponentsInfo)
 
     write_file(frontlineOutputFile, frontlines)
-    print("Broad answers have been written to {frontlineOutputFile}")
+    print(f"Broad answers have been written to {frontlineOutputFile}")
     return
 
 
