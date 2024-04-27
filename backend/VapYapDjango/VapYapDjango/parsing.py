@@ -1,6 +1,5 @@
 import json
 import os
-import threading
 from django.http import JsonResponse, HttpRequest
 from .summarize import broadSummary
 from .summarize import broadSummaryOpponents
@@ -278,8 +277,7 @@ def write_json(filepath, data):
 
 
 rawDebateInput = os.getcwd() + '/VapYapDjango/content/input/'
-rawDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/RawTracking.json'
-cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/CleanTracking.json'
+cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/RawTracking.json'
 answerDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/AnswerTracking.json'
 
 answerBroadDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerBroadOutput.txt'
