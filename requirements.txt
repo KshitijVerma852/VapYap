@@ -1,3 +1,4 @@
 openai
 django
 django-cors-headers
+gunicorn

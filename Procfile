@@ -1,0 +1,1 @@
+web: VapYapDjango.wgsi:application --log-file -
