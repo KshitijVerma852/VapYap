@@ -1,1 +1,1 @@
-web: cd backend/VapYapDjango && gunicorn VapYapDjango.wsgi:application
+web: gunicorn VapYapDjango.wsgi:application
