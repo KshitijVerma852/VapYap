@@ -1,1 +1,1 @@
-web: VapYapDjango.wgsi:application --log-file -
+web: VapYapDjango.wsgi:application --log-file -
