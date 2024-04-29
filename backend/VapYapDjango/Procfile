@@ -1,0 +1,1 @@
+web: gunicorn VapYapDjango.wsgi:application --log-file -
