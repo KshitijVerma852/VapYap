@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'VapYapDjango.wsgi.application'
+WSGI_APPLICATION = 'VapYapDjango.VapYapDjango.wsgi.application'
 
 # Remove DATABASES configuration entirely
 
