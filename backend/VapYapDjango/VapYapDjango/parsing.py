@@ -46,11 +46,9 @@ def returnJSONObject(request: HttpRequest):
         motion, infoSlide, position = initializeFormData(request)
 
         if infoSlide is None:
-            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {
-                motion}. You are set to represent the {position} position."
+            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. You are set to represent the {position} position."
         else:
-            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {
-                motion}. The info slide reads: {infoSlide}. You are set to represent the {position} position."
+            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. The info slide reads: {infoSlide}. You are set to represent the {position} position."
 
         brainStormArguments(debateWelcomeInfo)
         brainStormedIdeas = read_file(BrainStormOutput)

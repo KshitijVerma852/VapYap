@@ -1,10 +1,13 @@
 import os
 from pathlib import Path
+from urllib.parse import urlparse
+from django.core.management.utils import get_random_secret_key
+import sys
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'oru'
-DEBUG = False
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', get_random_secret_key())
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,grahamkheathcote.com').split(',')
 
@@ -40,6 +43,13 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 ROOT_URLCONF = 'VapYapDjango.urls'
 
@@ -88,5 +98,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'frontend/build/static'),)
