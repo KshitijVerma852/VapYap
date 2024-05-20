@@ -10,6 +10,9 @@ To do:
 
 target is 900 words for a speech unless you forget
 
+
+
+
 Potential source of the Deployment failure
     Step2
         -dj-database-url - A Django tool for parsing a database URL
