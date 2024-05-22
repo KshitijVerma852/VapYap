@@ -6,7 +6,7 @@ const SpeechPage = () => {
 	const formData = location.state || {};
 
 	const handleCardSubmit = async (title, content) => {
-		const url = "http://localhost:8000";
+		const url = "http://localhost:8000/dev";
 		try {
 			const response = await fetch(url, {
 				method: "POST",

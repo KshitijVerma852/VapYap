@@ -15,7 +15,7 @@ const SetupPage = () => {
 			infoSlide,
 			position
 		};
-		const url = "http://localhost:8000";
+		const url = "http://localhost:8000/dev";
 		try {
 			console.log(formData);
 			const response = await fetch(url, {
