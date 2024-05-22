@@ -15,8 +15,10 @@ positionToOrderOfSpeeches = {
     "CO": ["MO", "OW"]
 }
 orderOfSpeeches = ["PM", "LO", "DPM", "DLO", "MG", "MO", "GW", "OW"]
-
 firstRun = True
+speechNumberIndex = 0
+position = ""
+motion = ""
 
 
 def initializeFormData(request: HttpRequest):
@@ -24,17 +26,10 @@ def initializeFormData(request: HttpRequest):
         data = json.loads(request.body)
         return data.get("motion"), data.get("infoSlide"), data.get("position")
 
-
 def fetchNextSpeechFromFrontend(request: HttpRequest):
     if request.method == "POST":
         data = json.loads(request.body)
         return data.get("title"), data.get("content")
-
-
-speechNumberIndex = 0
-position = ""
-motion = ""
-
 
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
@@ -48,38 +43,29 @@ def returnJSONObject(request: HttpRequest):
         if infoSlide is None:
             debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. You are set to represent the {position} position."
         else:
-            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. The info slide reads: {infoSlide}. You are set to represent the {position} position."
+            debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. The info slide for the motion reads: {infoSlide}. You are set to represent the {position} position."
 
         brainStormArguments(debateWelcomeInfo)
         brainStormedIdeas = read_file(BrainStormOutput)
         firstRun = False
+    else:
+        print("Trying to enter in data for " + speechType)
+        title, content = fetchNextSpeechFromFrontend(request)
+        with open(os.getcwd() + f'/VapYapDjango/content/input/{title.upper()}.txt', "w") as speechFile:
+            speechFile.write(title)
+            speechFile.write("\n")
+            speechFile.write(content)
+        parse_RawArguments(
+            rawDebateInput + title.upper() + ".txt", cleanDebateOutput)
 
-    if speechNumberIndex <= len(orderOfSpeeches) - 1:
-        print(speechNumberIndex)
-        speechType = orderOfSpeeches[speechNumberIndex]
-        if speechNumberIndex == 100:
-            print("Trying to make a speech for " + speechType)
-            makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
-            print("Made a speech for PM " + speechType)
-            speechNumberIndex += 1
-        elif speechType in positionToOrderOfSpeeches[position]:
-            print("Trying to make a speech for " + speechType)
-            makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
-            print("Made a speech for PM " + speechType)
-            speechNumberIndex += 1
-        else:
-            print("Here")
-            title, content = fetchNextSpeechFromFrontend(request)
-            with open(os.getcwd() + f'/VapYapDjango/content/input/{title.upper()}.txt', "w") as speechFile:
-                speechFile.write(title)
-                speechFile.write("\n")
-                speechFile.write(content)
-            # input is the frontend argument and output is the global tracking json file
-            # Currently output fucks up with the argument strength
-            parse_RawArguments(
-                rawDebateInput + title.upper() + ".txt", cleanDebateOutput)
+    speechNumberIndex += 1
+    speechType = orderOfSpeeches[speechNumberIndex]
+    print("Next speech and speech attempted to be generated will be =", speechType)
 
-            speechNumberIndex += 1
+    if speechType in positionToOrderOfSpeeches[position]: #+1 needed because the next speech needs to be made
+        print("Trying to make a speech for " + speechType)
+        makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
+        print("Made a speech for PM " + speechType)
 
     return JsonResponse({"ai_response": "dfdai_response"})
 
