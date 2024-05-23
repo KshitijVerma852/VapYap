@@ -20,7 +20,7 @@ class FrontendAppView(TemplateView):
         return context
 
 urlpatterns = [
-    path("dev/", csrf_exempt(returnJSONObject)),
+    path("dev", csrf_exempt(returnJSONObject)),
     path('admin/', admin.site.urls),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

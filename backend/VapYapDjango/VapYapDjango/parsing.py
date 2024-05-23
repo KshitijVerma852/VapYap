@@ -36,6 +36,8 @@ def returnJSONObject(request: HttpRequest):
     global speechNumberIndex, firstRun, position, motion, debateWelcomeInfo, brainStormedIdeas
 
     print("Start running")
+    
+    speechType = orderOfSpeeches[speechNumberIndex]
 
     if firstRun:
         motion, infoSlide, position = initializeFormData(request)
@@ -281,8 +283,7 @@ def write_json(filepath, data):
 
 rawDebateInput = os.getcwd() + '/VapYapDjango/content/input/'
 cleanDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/RawTracking.json'
-answerDebateOutput = os.getcwd(
-) + '/VapYapDjango/content/globalTracking/AnswerTracking.json'
+answerDebateOutput = os.getcwd() + '/VapYapDjango/content/globalTracking/AnswerTracking.json'
 
 answerBroadDebateOutput = os.getcwd() + '/VapYapDjango/content/AnswerBroadOutput.txt'
 BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
