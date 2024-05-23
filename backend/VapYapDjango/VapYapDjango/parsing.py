@@ -76,11 +76,9 @@ def returnJSONObject(request: HttpRequest):
         print("Made a speech for PM " + speechType)
         convertOutputSpeechToInputSpeech()
         speechNumberIndex += 1
+        return JsonResponse({"success": True, "speechFor": speechType, "speech": read_file(speechType + "Output")})
     speechType = orderOfSpeeches[speechNumberIndex]
     print("After all that speechtype will be =", speechType)
-
-    #json_data = read_json(cleanDebateOutput)
-    #json_data.append({"speechFor": "LO", "success": True})
     return JsonResponse({"success": True})
 
 def convertOutputSpeechToInputSpeech():
@@ -305,8 +303,8 @@ BrainStormOutput = os.getcwd() + '/VapYapDjango/content/BrainStorm.txt'
 frontlineOutputFile = os.getcwd() + '/VapYapDjango/content/frontlineOutput.txt'
 
 
-PMOutput = os.getcwd() + '/VapYapDjango/content/PMCase.txt'
-LOOutput = os.getcwd() + '/VapYapDjango/content/LOCase.txt'
+PMOutput = os.getcwd() + '/VapYapDjango/content/PMSpeech.txt'
+LOOutput = os.getcwd() + '/VapYapDjango/content/LOSpeech.txt'
 DPMOutput = os.getcwd() + '/VapYapDjango/content/DPMSpeech.txt'
 DLOOutput = os.getcwd() + '/VapYapDjango/content/DLOSpeech.txt'
 
