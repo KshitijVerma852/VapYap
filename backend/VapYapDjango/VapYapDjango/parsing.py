@@ -20,7 +20,6 @@ speechNumberIndex = 0
 position = ""
 motion = ""
 
-
 def initializeFormData(request: HttpRequest):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -34,43 +33,59 @@ def fetchNextSpeechFromFrontend(request: HttpRequest):
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
     global speechNumberIndex, firstRun, position, motion, debateWelcomeInfo, brainStormedIdeas
-
     print("Start running")
-    
     speechType = orderOfSpeeches[speechNumberIndex]
-
+    print ("Speech number index is", speechNumberIndex)
+    print("firstRun is", firstRun)  
     if firstRun:
+        firstRun = False
         motion, infoSlide, position = initializeFormData(request)
-
         if infoSlide is None:
             debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. You are set to represent the {position} position."
         else:
             debateWelcomeInfo = f"You are a British Parliamentary debater. You are debating the motion {motion}. The info slide for the motion reads: {infoSlide}. You are set to represent the {position} position."
-
         brainStormArguments(debateWelcomeInfo)
         brainStormedIdeas = read_file(BrainStormOutput)
-        firstRun = False
-    else:
-        print("Trying to enter in data for " + speechType)
-        title, content = fetchNextSpeechFromFrontend(request)
-        with open(os.getcwd() + f'/VapYapDjango/content/input/{title.upper()}.txt', "w") as speechFile:
-            speechFile.write(title)
-            speechFile.write("\n")
-            speechFile.write(content)
-        parse_RawArguments(
-            rawDebateInput + title.upper() + ".txt", cleanDebateOutput)
-
+        
+        if position == "OG":
+            speechNumberIndex = 0
+            speechType = orderOfSpeeches[speechNumberIndex]
+            print("Trying to make a speech for " + speechType)
+            makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
+            print("Made a speech for PM " + speechType)
+            convertOutputSpeechToInputSpeech()
+            speechNumberIndex += 1
+            print("After making PM speech speechType is  =", orderOfSpeeches[speechNumberIndex])
+            return JsonResponse({"success": True, "speechFor": speechType, "speech": read_file(PMOutput)})
+        print("First run is done, speechNumberIndex is" + str(speechNumberIndex))
+        return JsonResponse({"success": True})
+    
+    print("Trying to enter in data for " + speechType)
+    title, content = fetchNextSpeechFromFrontend(request)
+    with open(os.getcwd() + f'/VapYapDjango/content/input/{title.upper()}.txt', "w") as speechFile:
+        speechFile.write(title)
+        speechFile.write("\n")
+        speechFile.write(content)
+    parse_RawArguments(
+        rawDebateInput + title.upper() + ".txt", cleanDebateOutput)
     speechNumberIndex += 1
-    speechType = orderOfSpeeches[speechNumberIndex]
-    print("Next speech and speech attempted to be generated will be =", speechType)
-
-    if speechType in positionToOrderOfSpeeches[position]: #+1 needed because the next speech needs to be made
+    if orderOfSpeeches[speechNumberIndex] in positionToOrderOfSpeeches[position]:
+        speechType = orderOfSpeeches[speechNumberIndex]
         print("Trying to make a speech for " + speechType)
         makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
         print("Made a speech for PM " + speechType)
+        convertOutputSpeechToInputSpeech()
+        speechNumberIndex += 1
+    speechType = orderOfSpeeches[speechNumberIndex]
+    print("After all that speechtype will be =", speechType)
 
-    return JsonResponse({"ai_response": "dfdai_response"})
+    #json_data = read_json(cleanDebateOutput)
+    #json_data.append({"speechFor": "LO", "success": True})
+    return JsonResponse({"success": True})
 
+def convertOutputSpeechToInputSpeech():
+   return
+    #Make later
 
 def makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechNeeded):
 

@@ -15,12 +15,52 @@
         {
             "text": "w fla;ksdfj",
             "strength": 1
+        },
+        {
+            "text": "Planes are better then cars because they cost more money and fly really high c",
+            "strength": 6
         }
     ],
-    "LO": [],
-    "DPM": [],
-    "DLO": [],
-    "MG": [],
+    "LO": [
+        {
+            "text": "Cars are better because they are cheaper meaning more people can afford c",
+            "strength": 3
+        },
+        {
+            "text": "Obama was first black prez some representation good c",
+            "strength": 5
+        },
+        {
+            "text": "Trump had good econ policies c",
+            "strength": 5
+        },
+        {
+            "text": "Trump was cool though c",
+            "strength": 5
+        }
+    ],
+    "DPM": [
+        {
+            "text": "coolness matters more then affordability w",
+            "strength": 6
+        }
+    ],
+    "DLO": [
+        {
+            "text": "Nah affordability matters more it doesn't matter if it is cool if nobody can use it w",
+            "strength": 7
+        },
+        {
+            "text": "Trump was cool though c",
+            "strength": 5
+        }
+    ],
+    "MG": [
+        {
+            "text": "Planes are better then cars because they cost more money and fly really high c",
+            "strength": 6
+        }
+    ],
     "MO": [],
     "GW": [],
     "OW": []
