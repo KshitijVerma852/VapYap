@@ -28,12 +28,11 @@ def initializeFormData(request: HttpRequest):
 def fetchNextSpeechFromFrontend(request: HttpRequest):
     if request.method == "POST":
         data = json.loads(request.body)
-        return data.get("title"), data.get("content")
+        return data.get("title"), data.get("content"), data.get("position")
 
 @csrf_exempt
 def returnJSONObject(request: HttpRequest):
     global speechNumberIndex, firstRun, position, motion, debateWelcomeInfo, brainStormedIdeas
-    print("Start running")
     speechType = orderOfSpeeches[speechNumberIndex]
     print ("Speech number index is", speechNumberIndex)
     print("firstRun is", firstRun)  
@@ -53,15 +52,17 @@ def returnJSONObject(request: HttpRequest):
             print("Trying to make a speech for " + speechType)
             makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
             print("Made a speech for PM " + speechType)
-            convertOutputSpeechToInputSpeech()
+            convertOutputSpeechToInputSpeech(read_file(PMOutput))
             speechNumberIndex += 1
             print("After making PM speech speechType is  =", orderOfSpeeches[speechNumberIndex])
             return JsonResponse({"success": True, "speechFor": speechType, "speech": read_file(PMOutput)})
         print("First run is done, speechNumberIndex is" + str(speechNumberIndex))
         return JsonResponse({"success": True})
-    
     print("Trying to enter in data for " + speechType)
-    title, content = fetchNextSpeechFromFrontend(request)
+    title, content, position = fetchNextSpeechFromFrontend(request)
+    if position != speechType:
+        print("Wrong speech button pressed lowkey or speechType is wrong")
+        return JsonResponse({"success": False, "error": "Invalid position"})
     with open(os.getcwd() + f'/VapYapDjango/content/input/{title.upper()}.txt', "w") as speechFile:
         speechFile.write(title)
         speechFile.write("\n")
@@ -74,7 +75,7 @@ def returnJSONObject(request: HttpRequest):
         print("Trying to make a speech for " + speechType)
         makeSpeech(debateWelcomeInfo, brainStormedIdeas, speechType)
         print("Made a speech for PM " + speechType)
-        convertOutputSpeechToInputSpeech()
+        convertOutputSpeechToInputSpeech(read_file(speechType + "Output"))
         speechNumberIndex += 1
         return JsonResponse({"success": True, "speechFor": speechType, "speech": read_file(speechType + "Output")})
     speechType = orderOfSpeeches[speechNumberIndex]
