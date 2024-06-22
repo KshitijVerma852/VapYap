@@ -8,6 +8,7 @@ from .logic import makeAPIRequestFreshSystem
 from .logic import makeAPIRequestFreshSystemTurbo
 from django.views.decorators.csrf import csrf_exempt
 
+
 positionToOrderOfSpeeches = {
     "OG": ["PM", "DPM"],
     "OO": ["LO", "DLO"],
